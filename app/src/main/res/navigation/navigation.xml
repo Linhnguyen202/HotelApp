@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/navigation"
+    app:startDestination="@id/detailScreen">
+
+    <fragment
+        android:id="@+id/detailScreen"
+        android:name="com.example.hotelapp.ui.DetailScreen"
+        android:label="fragment_detail_screen"
+        tools:layout="@layout/fragment_detail_screen" >
+        <action
+            android:id="@+id/action_detailScreen_to_roomListScreen"
+            app:destination="@id/roomListScreen" />
+        <action
+            android:id="@+id/action_detailScreen_to_mainActivity3"
+            app:destination="@id/mainActivity3" />
+    </fragment>
+    <fragment
+        android:id="@+id/roomListScreen"
+        android:name="com.example.hotelapp.ui.roomPage.RoomListScreen"
+        android:label="fragment_room_list_screen"
+        tools:layout="@layout/fragment_room_list_screen" >
+        <action
+            android:id="@+id/action_roomListScreen_to_confirmPayScreen"
+            app:destination="@id/confirmPayScreen" />
+        <argument
+            android:name="id"
+            app:argType="string" />
+        <argument
+            android:name="name"
+            app:argType="string" />
+    </fragment>
+    <fragment
+        android:id="@+id/confirmPayScreen"
+        android:name="com.example.hotelapp.ui.roomPage.ConfirmPayScreen"
+        android:label="fragment_confirm_pay_screen"
+        tools:layout="@layout/fragment_confirm_pay_screen" >
+
+        <action
+            android:id="@+id/action_confirmPayScreen_to_successOrderScreen2"
+            app:destination="@id/successOrderScreen2" />
+        <argument
+            android:name="room"
+            app:argType="com.example.hotelapp.model.Room" />
+    </fragment>
+    <fragment
+        android:id="@+id/successOrderScreen2"
+        android:name="com.example.hotelapp.ui.roomPage.SuccessOrderScreen"
+        android:label="fragment_success_order_screen"
+        tools:layout="@layout/fragment_success_order_screen" >
+        <argument
+            android:name="booking"
+            app:argType="com.example.hotelapp.model.Booking" />
+    </fragment>
+    <activity
+        android:id="@+id/mainActivity3"
+        android:name="com.example.hotelapp.MainActivity3"
+        android:label="activity_main3"
+        tools:layout="@layout/activity_main3" />
+</navigation>

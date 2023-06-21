@@ -1,0 +1,110 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    >
+    <androidx.cardview.widget.CardView
+        android:id="@+id/hotelItemCard"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:cardCornerRadius="14dp"
+        app:cardElevation="4dp"
+        app:cardUseCompatPadding="true"
+        app:cardMaxElevation="4dp">
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content">
+            <ImageView
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                android:id="@+id/thumbnailCard"
+                android:src="@drawable/test_image"
+                android:scaleType="centerCrop"
+                android:layout_width="wrap_content"
+                android:layout_height="200dp"/>
+            <CheckBox
+                android:id="@+id/likeButton"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_margin="10dp"
+                android:button="@drawable/selector_wishlist"
+                app:useMaterialThemeColors="false"
+               />
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/thumbnailCard"
+                app:layout_constraintStart_toStartOf="parent"
+                android:padding="18dp">
+                <TextView
+                    android:id="@+id/titleCardTxt"
+                    android:text="The Aston hotel"
+                    android:textSize="18sp"
+                    android:textColor="@color/black"
+                    android:textStyle="bold"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"/>
+                <ImageView
+                    android:id="@+id/starImgCard"
+                    android:src="@drawable/start_rate"
+                    app:layout_constraintEnd_toStartOf="@+id/rateNumCardTxt"
+                    app:layout_constraintTop_toTopOf="@+id/titleCardTxt"
+                    app:layout_constraintBottom_toBottomOf="@+id/titleCardTxt"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginRight="10dp"/>
+                <TextView
+                    android:id="@+id/rateNumCardTxt"
+                    android:text="5.0"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toTopOf="@+id/titleCardTxt"
+                    app:layout_constraintBottom_toBottomOf="@+id/titleCardTxt"
+                    android:textColor="@color/black"
+                    android:textStyle="bold"
+
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"/>
+                <TextView
+                    android:id="@+id/locationCardTxt"
+                    android:textSize="12sp"
+                    android:layout_marginTop="8dp"
+                    android:text="Alice Springs NT 0870, Australia"
+                    app:layout_constraintTop_toBottomOf="@+id/titleCardTxt"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"/>
+                <TextView
+                    android:id="@+id/priceCardText"
+                    app:layout_constraintTop_toBottomOf="@+id/locationCardTxt"
+                    android:text="$165,3"
+                    android:textColor="#C8102E"
+                    android:textStyle="bold"
+                    android:textSize="14sp"
+                    android:layout_marginTop="10dp"
+                    app:layout_constraintStart_toStartOf="parent"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"/>
+                <TextView
+                    android:id="@+id/nightCardTxt"
+                    app:layout_constraintBottom_toBottomOf="@+id/priceCardText"
+                    app:layout_constraintStart_toEndOf="@+id/priceCardText"
+
+                    android:text=" /night"
+                    android:textStyle="bold"
+                    android:textSize="12sp"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"/>
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+    </androidx.cardview.widget.CardView>
+</androidx.constraintlayout.widget.ConstraintLayout>

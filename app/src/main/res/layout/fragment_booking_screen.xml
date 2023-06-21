@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    tools:context=".ui.BookingScreen"
+    android:background="#F5F5F5"
+    android:paddingTop="40dp">
+    <TextView
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        android:id="@+id/titlePage"
+        android:text="Trips"
+        android:textColor="@color/black"
+        android:textSize="40sp"
+        android:textStyle="bold"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="20dp"
+        />
+    <LinearLayout
+        android:id="@+id/mainView"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toBottomOf="@+id/titlePage"
+        android:orientation="vertical"
+        android:visibility="gone">
+        <com.google.android.material.tabs.TabLayout
+            android:id="@+id/tabTrip"
+            app:layout_constraintTop_toBottomOf="@+id/titlePage"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="#F5F5F5"/>
+        <androidx.viewpager2.widget.ViewPager2
+            android:id="@+id/viewPageBooking"
+            app:layout_constraintTop_toBottomOf="@+id/tabTrip"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            app:layout_constraintBottom_toBottomOf="parent"/>
+    </LinearLayout>
+    <LinearLayout
+        android:id="@+id/notSignView"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toBottomOf="@+id/titlePage"
+        app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+        android:orientation="vertical"
+        android:layout_marginTop="20dp"
+        android:paddingVertical="20dp"
+        android:paddingHorizontal="30dp">
+        <TextView
+            android:text="You haven't log in. Please sign in !"
+            android:textSize="20sp"
+            android:textStyle="bold"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"/>
+        <Button
+            android:id="@+id/signInbutton"
+            android:layout_marginTop="10dp"
+            android:text="Sign in"
+            android:textSize="16sp"
+            android:paddingVertical="10dp"
+            android:paddingHorizontal="25dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"/>
+    </LinearLayout>
+
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>
