@@ -2,6 +2,7 @@ package com.example.hotelapp.ui
 
 import android.annotation.SuppressLint
 import android.content.Context
+import android.graphics.Paint
 import android.os.Bundle
 import android.util.Log
 import androidx.fragment.app.Fragment
@@ -82,7 +83,20 @@ class HomeScreen : Fragment() {
         setUpItem()
         addData()
         addEvents()
-
+        binding.trendAllTitle.paintFlags = binding.trendAllTitle.getPaintFlags() or Paint.UNDERLINE_TEXT_FLAG
+        binding.popularAllTitle.paintFlags = binding.trendAllTitle.getPaintFlags() or Paint.UNDERLINE_TEXT_FLAG
+        binding.trendAllTitle.setOnClickListener{
+            val bundle = bundleOf(
+                "type" to "New",
+            )
+            findNavController().navigate(R.id.action_homeScreen_to_listHotelScreen,bundle)
+        }
+        binding.popularAllTitle.setOnClickListener{
+            val bundle = bundleOf(
+                "type" to "Popular",
+            )
+            findNavController().navigate(R.id.action_homeScreen_to_listHotelScreen,bundle)
+        }
     }
 
     private fun addEvents() {
@@ -91,6 +105,7 @@ class HomeScreen : Fragment() {
 
             }
             else{
+
             }
 
         }

@@ -4,11 +4,13 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.CheckBox
+import android.widget.ImageView
 import android.widget.TextView
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.recyclerview.widget.AsyncListDiffer
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
+import com.bumptech.glide.Glide
 import com.example.hotelapp.R
 import com.example.hotelapp.model.Hotel
 
@@ -20,6 +22,7 @@ class HotelBigAdapter(var onClick : (Hotel)->Unit,var onClickFavorButton: (Hotel
         private var startRateBig : TextView = view.findViewById(R.id.value_rateBig)
         private var mainContainer : ConstraintLayout = view.findViewById(R.id.mainContainer)
         private var likeButton : CheckBox = view.findViewById(R.id.likeButton)
+        private var bannerCardBig : ImageView= view.findViewById(R.id.bannerCardBig)
         public fun init(hotel: Hotel){
             titleBig.text = hotel.name
             priceBig.text = hotel.price.toString()
@@ -27,6 +30,7 @@ class HotelBigAdapter(var onClick : (Hotel)->Unit,var onClickFavorButton: (Hotel
             mainContainer.setOnClickListener {
                 onClick.invoke(hotel)
             }
+            Glide.with(this.itemView).load(hotel.image).into(bannerCardBig)
             likeButton.setOnCheckedChangeListener{ checkbox, isChecked ->
                 if(isChecked){
                     onClickFavorButton.invoke(hotel)

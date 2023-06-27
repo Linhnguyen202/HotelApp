@@ -3,6 +3,7 @@
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/bookingLayout"
     >
     <androidx.cardview.widget.CardView
         android:id="@+id/hotelItemCard"
@@ -72,7 +73,7 @@
                     android:id="@+id/priceCardText"
                     app:layout_constraintTop_toBottomOf="@+id/timeBookingTxt"
                     android:text="$165,3"
-                    android:textColor="#4C4DDC"
+                    android:textColor="#C8102E"
                     android:textStyle="bold"
                     android:textSize="14sp"
                     android:layout_marginTop="10dp"
@@ -83,7 +84,7 @@
                     android:id="@+id/nightCardTxt"
                     app:layout_constraintBottom_toBottomOf="@+id/priceCardText"
                     app:layout_constraintStart_toEndOf="@+id/priceCardText"
-                    android:text=" /night"
+                    android:text=" /total"
                     android:textStyle="bold"
                     android:textSize="12sp"
                     android:layout_width="wrap_content"

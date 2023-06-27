@@ -127,7 +127,7 @@ class SearchForm : BottomSheetDialogFragment() {
         val calendarStart = Calendar.getInstance()
         calendarStart.set(2023, calendar.get(Calendar.MONTH), calendar.get(Calendar.DATE))
         val calendarEnd = Calendar.getInstance()
-        calendarEnd.set(2023, calendar.get(Calendar.MONTH)+1,1)
+        calendarEnd.set(2023, calendar.get(Calendar.MONTH)+2,1)
 
         // Set the date picker constraints
         val constraintsBuilder = CalendarConstraints.Builder()
@@ -145,7 +145,7 @@ class SearchForm : BottomSheetDialogFragment() {
         binding.datePickerBox.setOnClickListener {
             datePicker.show(parentFragmentManager,"Matarial Manager")
             datePicker.addOnPositiveButtonClickListener {
-                val simpleDate = SimpleDateFormat("dd-MM-yyyy",Locale.getDefault())
+                val simpleDate = SimpleDateFormat("dd/MM/yyyy",Locale.getDefault())
                 binding.timePick.text = "${simpleDate.format(it.first)}-${simpleDate.format(it.second)}"
             }
         }

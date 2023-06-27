@@ -27,6 +27,7 @@
                 android:layout_height="100dp"
                 app:cardCornerRadius="5dp">
                 <ImageView
+                    android:id="@+id/bannerHotel"
                     android:src="@drawable/test_image"
                     android:scaleType="centerCrop"
                     android:layout_width="wrap_content"

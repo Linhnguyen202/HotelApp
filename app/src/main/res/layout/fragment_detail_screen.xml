@@ -18,6 +18,7 @@
             app:titleEnabled="false"
            >
             <ImageView
+                android:id="@+id/banner"
                 android:src="@drawable/test_image"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
@@ -79,6 +80,17 @@
                    android:layout_width="wrap_content"
                    android:layout_height="wrap_content"
                    android:layout_marginLeft="10dp"/>
+               <CheckBox
+                   android:id="@+id/likeButton"
+                   app:layout_constraintEnd_toEndOf="parent"
+                   android:layout_width="wrap_content"
+                   android:layout_height="wrap_content"
+                   app:layout_constraintTop_toTopOf="@+id/rateNumCardTxt"
+                   android:button="@drawable/selector_wishlist_border"
+                   app:useMaterialThemeColors="false"
+                   android:minWidth="0dp"
+                   android:minHeight="0dp"
+                   />
                <ImageView
                    android:id="@+id/starImgCard"
                    android:src="@drawable/start_rate"

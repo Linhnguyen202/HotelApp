@@ -4,15 +4,17 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    tools:context=".ui.bookingPage.CurrentScreen"
-    android:padding="20dp">
+    tools:context=".ui.roomPage.RoomListScreen"
+    android:background="#F5F5F5"
+    >
+    <include layout="@layout/toolbar_title" android:id="@+id/toolbarTitle"/>
     <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/currentBookingRv"
+        android:id="@+id/hotelRv"
+        app:layout_constraintTop_toBottomOf="@+id/toolbarTitle"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:backgroundTint="@color/purple_700"
-        app:layout_constraintTop_toTopOf="parent"
+        android:layout_height="wrap_content"
         app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
-        android:orientation="vertical"/>
-
+        android:orientation="vertical"
+        android:layout_margin="20dp"
+        android:paddingBottom="70dp"/>
 </androidx.constraintlayout.widget.ConstraintLayout>

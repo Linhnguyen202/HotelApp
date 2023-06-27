@@ -7,6 +7,7 @@ import retrofit2.http.DELETE
 import retrofit2.http.GET
 import retrofit2.http.Header
 import retrofit2.http.POST
+import retrofit2.http.PUT
 import retrofit2.http.Path
 import retrofit2.http.Query
 
@@ -58,6 +59,25 @@ interface HotelApi {
         @Path("userId") userId: String,
         @Header("Authorization") header: String,
         @Body body: bookingBody
+    ) : Response<BookingResponse>
+
+    @GET("user/{userId}/booking")
+    suspend fun getUserBooking(
+        @Path("userId") userId: String,
+        @Header("Authorization") header: String,
+    ) : Response<UserBookingResponse>
+
+    @GET("user/{userId}/booking/cancel")
+    suspend fun getUserCancelBooking(
+        @Path("userId") userId: String,
+        @Header("Authorization") header: String,
+    ) : Response<UserBookingResponse>
+
+    @PUT("user/{userId}/booking/{bookingId}")
+    suspend fun cancelBooking(
+        @Path("userId") userId: String,
+        @Path("bookingId") bookingId: String,
+        @Header("Authorization") header: String,
     ) : Response<BookingResponse>
 
     @POST("user/{userId}/favorHotel")

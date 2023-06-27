@@ -17,6 +17,7 @@ import androidx.core.os.bundleOf
 import androidx.core.util.Pair
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
+import com.bumptech.glide.Glide
 import com.example.hotelapp.MainActivity2
 import com.example.hotelapp.R
 import com.example.hotelapp.adapter.HotelOfferAdapter
@@ -128,7 +129,7 @@ class DetailScreen : Fragment(){
         val calendarStart = Calendar.getInstance()
         calendarStart.set(2023, calendar.get(Calendar.MONTH), calendar.get(Calendar.DATE))
         val calendarEnd = Calendar.getInstance()
-        calendarEnd.set(2023, calendar.get(Calendar.MONTH)+1,1)
+        calendarEnd.set(2023, calendar.get(Calendar.MONTH)+2,1)
 
         // Set the date picker constraints
         val constraintsBuilder = CalendarConstraints.Builder()
@@ -214,7 +215,7 @@ class DetailScreen : Fragment(){
         binding.detailHotelLocation.text = DATA?.address + "," + DATA?.city
         binding.rateNumCardTxt.text = DATA?.rate.toString()
         binding.overviewTxt.text = DATA?.description
-
+        Glide.with(this).load(DATA!!.image).into(binding.banner)
         adapterRoomType = RoomTypeAdapter()
         roomTypeList.add(RoomType("1","bedroom 1","1 king bed"))
         roomTypeList.add(RoomType("2","bedroom 2","1 queen bed"))

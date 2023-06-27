@@ -12,6 +12,8 @@ data class Booking(
     val numberRoom: Int?,
     val guestNumber: Int?,
     val paymentType: String?,
+    val startDate: String?,
+    val endDate: String?,
     val user: User,
     val hotel: Hotel,
     val room: Room,
@@ -26,6 +28,8 @@ data class Booking(
         parcel.readString(),
         parcel.readInt(),
         parcel.readInt(),
+        parcel.readString(),
+        parcel.readString(),
         parcel.readString(),
         parcel.readParcelable<User>(User::class.java.classLoader)!!,
         parcel.readParcelable<Hotel>(Hotel::class.java.classLoader)!!,
@@ -43,6 +47,8 @@ data class Booking(
         parcel.writeInt(numberRoom!!)
         parcel.writeInt(guestNumber!!)
         parcel.writeString(paymentType)
+        parcel.writeString(startDate)
+        parcel.writeString(endDate)
         parcel.writeParcelable(user,flags)
         parcel.writeParcelable(hotel,flags)
         parcel.writeParcelable(room,flags)

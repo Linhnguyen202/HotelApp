@@ -19,7 +19,8 @@ data class Hotel(
     val price: Int,
     val priceDiscount: Int,
     val rate: Float,
-    val type: String?
+    val type: String?,
+    val image: String?
 ) : Parcelable {
     constructor(parcel: Parcel) : this(
         parcel.readString()!!,
@@ -31,6 +32,7 @@ data class Hotel(
         parcel.readInt(),
         parcel.readInt(),
         parcel.readFloat(),
+        parcel.readString(),
         parcel.readString()) {
     }
 
@@ -45,6 +47,7 @@ data class Hotel(
         parcel.writeInt(priceDiscount)
         parcel.writeFloat(rate)
         parcel.writeString(type)
+        parcel.writeString(image)
     }
 
     override fun describeContents(): Int {

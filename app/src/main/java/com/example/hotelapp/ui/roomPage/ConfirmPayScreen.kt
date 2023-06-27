@@ -1,5 +1,6 @@
 package com.example.hotelapp.ui.roomPage
 
+import android.os.Build
 import android.os.Bundle
 import android.text.Html
 import android.util.Log
@@ -9,6 +10,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.RadioButton
 import android.widget.Toast
+import androidx.annotation.RequiresApi
 import androidx.compose.ui.graphics.Paint
 import androidx.core.os.bundleOf
 import androidx.lifecycle.ViewModelProvider
@@ -25,11 +27,15 @@ import com.example.hotelapp.model.bookingBody
 import com.example.hotelapp.repository.HotelRepository
 import com.example.hotelapp.share.sharePreferenceUtils
 import com.example.hotelapp.utils.Resource
+import com.example.hotelapp.utils.loadingDialog
 import com.example.hotelapp.viewModel.HotelViewModel
 import com.example.hotelapp.viewModel.HotelViewModelProviderFactory
 import com.example.hotelapp.viewModel.UserViewModel.UserViewModel
 import com.example.hotelapp.viewModel.UserViewModel.UserViewModelProviderFactory
 import okhttp3.internal.assertThreadHoldsLock
+import java.text.SimpleDateFormat
+import java.time.LocalDate
+import java.time.temporal.ChronoUnit
 
 class ConfirmPayScreen : Fragment() {
     lateinit var binding : FragmentConfirmPayScreenBinding
@@ -54,20 +60,23 @@ class ConfirmPayScreen : Fragment() {
         return binding.root
     }
 
+    @RequiresApi(Build.VERSION_CODES.O)
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         addData()
         addEvents()
     }
 
+    @RequiresApi(Build.VERSION_CODES.O)
     private fun addData() {
         val search = (activity as MainActivity2).args.search
         val argRoom = args.room
         Log.d("search",search.adults.toString())
+        val dateArray = search.time!!.split("-")
         val user = sharePreferenceUtils.getUser(requireContext())
         val userName = user.username
         val price = argRoom.price
-        val totalPrice = search.room!!.toInt() * price
+        val totalPrice = (search.room!!.toInt() * price) + 20 + 40
         val status = "Current"
         val descripion = ""
         val numberRoom = search.room.toString().toInt()
@@ -76,14 +85,35 @@ class ConfirmPayScreen : Fragment() {
         val hotelId = argRoom.hotel.toString()
         val roomId = argRoom._id
         var paymentType : String = ""
-        bookingBody = bookingBody(userName!!,totalPrice,price,status,descripion,numberRoom,guestNumber,paymentType,userId,hotelId,roomId)
+        bookingBody = bookingBody(userName!!,totalPrice,price,status,descripion,numberRoom,guestNumber,paymentType,dateArray[0].toString(),dateArray[1].toString(),userId,hotelId,roomId)
+
+        binding.roomTitle.text = argRoom.name
+        binding.roomTxt.text = search.room + " room, " + search.adults.toString() + " guest"
+        val dateFormat = SimpleDateFormat("dd/MM/yyyy")
+        val bookingStartDate  = dateFormat.parse(dateArray[0].toString())
+        val bookingEndDate  = dateFormat.parse(dateArray[1].toString())
+        val startDate = LocalDate.of(
+            bookingStartDate.year + 1900,
+            bookingStartDate.month + 1,
+            bookingStartDate.date
+        )
+        val endDate = LocalDate.of(
+            bookingEndDate.year + 1900,
+            bookingEndDate.month + 1,
+            bookingEndDate.date
+        )
+        val distance = ChronoUnit.DAYS.between(startDate, endDate)
+        binding.timeInfoTxt.text = "${dateArray[0].toString()}-${dateArray[1].toString()} (${distance.toString()} days)"
+
+        binding.priceTxt.text = price.toString()
+        binding.totalTxt.text = totalPrice.toString()
+
     }
     private fun onSubmit(){
         if(bookingBody!!.paymentType.isEmpty()){
             Toast.makeText(requireContext(),"Please choose your payment type",Toast.LENGTH_LONG).show()
         }
         else{
-            Toast.makeText(requireContext(),this@ConfirmPayScreen.bookingBody.toString(),Toast.LENGTH_LONG).show()
             var header : String = "Bearer "
             val user : User = sharePreferenceUtils.getUser(requireContext())
             val token = sharePreferenceUtils.getToken(requireContext())
@@ -96,14 +126,16 @@ class ConfirmPayScreen : Fragment() {
                             val bundle = bundleOf(
                                 "booking" to BookingResponse!!.booking
                             )
+
                          findNavController().navigate(R.id.action_confirmPayScreen_to_successOrderScreen2,bundle)
+                            loadingDialog.endLoading(requireContext())
                         }
                     }
                     is Resource.Error -> {
 
                     }
                     is Resource.Loading -> {
-                        Toast.makeText(requireContext(),"Loading",Toast.LENGTH_LONG).show()
+                        loadingDialog.startLoading(requireContext())
                     }
                 }
             }

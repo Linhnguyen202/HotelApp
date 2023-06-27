@@ -14,6 +14,7 @@ import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.AsyncListDiffer
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
+import com.bumptech.glide.Glide
 import com.example.hotelapp.MainActivity
 import com.example.hotelapp.R
 import com.example.hotelapp.model.Hotel
@@ -26,6 +27,7 @@ class HotelMainAdapter(val onClickItem : (Hotel) -> Unit, val onClickFavorButton
         private var rateNumCardTxt : TextView = view.findViewById(R.id.rateNumCardTxt)
         private var hotelItemCard : CardView = view.findViewById(R.id.hotelItemCard)
         private var likeButton : CheckBox = view.findViewById(R.id.likeButton)
+        private var thumbnailCard : ImageView = view.findViewById(R.id.thumbnailCard)
         public fun init(hotel: Hotel){
             titleCardTxt.text = hotel.name
             locationCardTxt.text = hotel.address.toString()
@@ -33,7 +35,7 @@ class HotelMainAdapter(val onClickItem : (Hotel) -> Unit, val onClickFavorButton
             hotelItemCard.setOnClickListener{
                 onClickItem.invoke(hotel)
             }
-
+            Glide.with(this.itemView).load(hotel.image).into(thumbnailCard)
             likeButton.setOnCheckedChangeListener{ checkbox, isChecked ->
                 if(isChecked){
                     onClickFavorButton.invoke(hotel)

@@ -1,32 +1,46 @@
 package com.example.hotelapp.ui
 
-import android.app.AlertDialog
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
+import androidx.core.os.bundleOf
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
+import androidx.navigation.fragment.navArgs
 import com.example.hotelapp.R
-import com.example.hotelapp.adapter.HotelFavorAdapter
+import com.example.hotelapp.adapter.HotelMainAdapter
 import com.example.hotelapp.application.HotelApplication
 import com.example.hotelapp.database.HotelDatabase
-import com.example.hotelapp.databinding.FragmentSavedScreenBinding
+import com.example.hotelapp.databinding.FragmentListHotelScreenBinding
 import com.example.hotelapp.model.FavorBody
 import com.example.hotelapp.model.Hotel
 import com.example.hotelapp.repository.FavorRepository
+import com.example.hotelapp.repository.HotelRepository
 import com.example.hotelapp.share.sharePreferenceUtils
 import com.example.hotelapp.utils.Resource
-import com.example.hotelapp.utils.loadingDialog
 import com.example.hotelapp.viewModel.FavorViewModel.FavorViewModel
 import com.example.hotelapp.viewModel.FavorViewModel.FavorViewModelProviderFactory
+import com.example.hotelapp.viewModel.HotelViewModel
+import com.example.hotelapp.viewModel.HotelViewModelProviderFactory
 
 
-class SavedScreen : Fragment() {
-    lateinit var binding : FragmentSavedScreenBinding
-    lateinit var adapter: HotelFavorAdapter
+class ListHotelScreen : Fragment() {
+    lateinit var binding : FragmentListHotelScreenBinding
+    val args : ListHotelScreenArgs by navArgs()
+    lateinit var adapter: HotelMainAdapter
+    private val repository by lazy {
+        HotelRepository(HotelDatabase(requireContext()));
+    }
+    private val viewModelProviderFactory by lazy {
+        HotelViewModelProviderFactory(HotelApplication(),repository)
+    }
+
+    private val hotelViewModel by lazy {
+        ViewModelProvider(this,viewModelProviderFactory)[HotelViewModel::class.java]
+    }
     private val favorRepository by lazy {
         FavorRepository(HotelDatabase(requireContext()));
     }
@@ -41,67 +55,35 @@ class SavedScreen : Fragment() {
         savedInstanceState: Bundle?,
     ): View? {
         // Inflate the layout for this fragment
-        binding = FragmentSavedScreenBinding.inflate(layoutInflater)
+       binding = FragmentListHotelScreenBinding.inflate(layoutInflater)
         return binding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        setUpItem()
+        adapter = HotelMainAdapter(onClickItem,onClickFavorButton,onClickRemoveFavorButton,checkFavorHotel)
+        binding.hotelRv.apply {
+            adapter = this@ListHotelScreen.adapter
+        }
         addData()
         addEvent()
-
     }
 
     private fun addEvent() {
-        binding.signInbutton.setOnClickListener {
-            findNavController().navigate(R.id.action_savedScreen_to_mainActivity32)
+        binding.toolbarTitle.backButton.setOnClickListener {
+            findNavController().popBackStack()
         }
     }
 
-    private fun setUpItem() {
-        adapter = HotelFavorAdapter(onClickItem,onClickFavorButton,onClickRemoveFavorButton)
-        binding.favorHotelRv.apply {
-            adapter = this@SavedScreen.adapter
-        }
-    }
-    private fun addData() {
-        if(sharePreferenceUtils.isSharedPreferencesExist(requireContext(),"USER","TOKEN_VALUE") && sharePreferenceUtils.isSharedPreferencesExist(requireContext(),"USER","USER_VALUE")){
-           binding.notSignView.visibility = View.GONE
-           binding.favorHotelRv.visibility = View.VISIBLE
-            val authen = "Bearer ${sharePreferenceUtils.getToken(requireContext())}"
-            val userId = sharePreferenceUtils.getUser(requireContext())._id
-            favorViewModel.getFavor(userId,authen)
-            favorViewModel.getFavorResponse.observe(viewLifecycleOwner){
-                when(it){
-                    is Resource.Success -> {
-                        it.data?.let { GetFavorResponse->
-                            adapter.differ.submitList(GetFavorResponse.favor.toList())
-
-                        }
-                    }
-                    is Resource.Error -> {
-
-                    }
-                    is Resource.Loading -> {
-
-                    }
-                }
-            }
-        }
-        else{
-            binding.notSignView.visibility = View.VISIBLE
-            binding.favorHotelRv.visibility = View.GONE
-        }
-
-    }
     private val onClickItem : (Hotel)->Unit = {
-//        val bundle = bundleOf(
-//            "hotel" to it,
-//            "search" to this.search
-//        )
-//        findNavController().navigate(R.id.action_exploreScreen_to_mainActivity2,bundle)
+        val bundle = bundleOf(
+            "hotel" to it,
+        )
+        findNavController().navigate(R.id.action_listHotelScreen_to_mainActivity2,bundle)
 
+    }
+    private val checkFavorHotel : (Hotel) -> Boolean = {
+       false
     }
     private val onClickFavorButton : (Hotel) -> Unit = {
         val authen = "Bearer ${sharePreferenceUtils.getToken(requireContext())}"
@@ -113,15 +95,14 @@ class SavedScreen : Fragment() {
             when(it){
                 is Resource.Success -> {
                     it.data?.let { PostFavorResponse->
-                      loadingDialog.endLoading(requireContext())
-
+                        Toast.makeText(requireContext(),PostFavorResponse.toString(), Toast.LENGTH_LONG).show()
                     }
                 }
                 is Resource.Error -> {
 
                 }
                 is Resource.Loading -> {
-                    loadingDialog.startLoading(requireContext())
+                    Toast.makeText(requireContext(),"Loading data", Toast.LENGTH_LONG).show()
                 }
             }
         }
@@ -132,22 +113,31 @@ class SavedScreen : Fragment() {
         val userId = sharePreferenceUtils.getUser(requireContext())._id
         val hotelId = it._id
         val favorBody = FavorBody(hotelId,userId)
-        val builder = AlertDialog.Builder(requireContext())
-        builder.setTitle("Are you sure to delete this hotel ?")
-            .setPositiveButton("Yes"){ dialog, which ->
-                favorViewModel.deleteFavor(userId,hotelId,authen)
-                addData()
-            }
-            .setNegativeButton("No"){ dialog, which ->
-                dialog.dismiss()
-
-            }
-        val alertDialog : AlertDialog = builder.create()
-        alertDialog.show()
+        favorViewModel.deleteFavor(userId,hotelId,authen)
         favorViewModel.statusFavorResponse.observe(viewLifecycleOwner){
             when(it){
                 is Resource.Success -> {
                     it.data?.let { DeleteFavorResponse->
+                        Toast.makeText(requireContext(),DeleteFavorResponse.toString(), Toast.LENGTH_LONG).show()
+                    }
+                }
+                is Resource.Error -> {
+
+                }
+                is Resource.Loading -> {
+                    Toast.makeText(requireContext(),"Loading data", Toast.LENGTH_LONG).show()
+                }
+            }
+        }
+    }
+    private fun addData() {
+        binding.toolbarTitle.titleToolbar.text = "${args.type} Hotel"
+        hotelViewModel.setDataType(args.type)
+        hotelViewModel.popularHotelList.observe(viewLifecycleOwner){
+            when(it){
+                is Resource.Success -> {
+                    it.data?.let { HotelResponse ->
+                        adapter.differ.submitList(HotelResponse.result.toList())
 
                     }
                 }
@@ -160,7 +150,6 @@ class SavedScreen : Fragment() {
             }
         }
     }
-
 
 
 }

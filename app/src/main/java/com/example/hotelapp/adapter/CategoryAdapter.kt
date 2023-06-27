@@ -16,7 +16,7 @@ class CategoryAdapter : RecyclerView.Adapter<CategoryAdapter.CategoryViewHolder>
     inner class CategoryViewHolder(view : View) : RecyclerView.ViewHolder(view){
         private val cateLayout : ConstraintLayout = view.findViewById(R.id.cateLayoutContent)
         private val cateTitle: TextView = view.findViewById(R.id.cateTitle)
-        private val cateIcon: ImageView = view.findViewById(R.id.iconCate)
+//        private val cateIcon: ImageView = view.findViewById(R.id.iconCate)
         public fun init(category: Category){
 
         }

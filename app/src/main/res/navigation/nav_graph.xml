@@ -12,6 +12,9 @@
         <action
             android:id="@+id/action_homeScreen_to_mainActivity2"
             app:destination="@id/mainActivity2" />
+        <action
+            android:id="@+id/action_homeScreen_to_listHotelScreen"
+            app:destination="@id/listHotelScreen" />
     </fragment>
     <fragment
         android:id="@+id/bookingScreen"
@@ -21,6 +24,9 @@
         <action
             android:id="@+id/action_bookingScreen_to_mainActivity3"
             app:destination="@id/mainActivity32" />
+        <action
+            android:id="@+id/action_bookingScreen_to_detailBookingScreen"
+            app:destination="@id/detailBookingScreen" />
     </fragment>
     <fragment
         android:id="@+id/savedScreen"
@@ -77,4 +83,25 @@
         android:name="com.example.hotelapp.SplashActivity"
         android:label="activity_splash"
         tools:layout="@layout/activity_splash" />
+    <fragment
+        android:id="@+id/detailBookingScreen"
+        android:name="com.example.hotelapp.ui.DetailBookingScreen"
+        android:label="fragment_detail_booking_screen"
+        tools:layout="@layout/fragment_detail_booking_screen" >
+        <argument
+            android:name="booking"
+            app:argType="com.example.hotelapp.model.Booking" />
+    </fragment>
+    <fragment
+        android:id="@+id/listHotelScreen"
+        android:name="com.example.hotelapp.ui.ListHotelScreen"
+        android:label="fragment_list_hotel_screen"
+        tools:layout="@layout/fragment_list_hotel_screen" >
+        <action
+            android:id="@+id/action_listHotelScreen_to_mainActivity2"
+            app:destination="@id/mainActivity2" />
+        <argument
+            android:name="type"
+            app:argType="string" />
+    </fragment>
 </navigation>

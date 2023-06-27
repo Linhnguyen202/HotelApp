@@ -2,6 +2,7 @@ package com.example.hotelapp.repository
 
 import com.example.hotelapp.api.RetrofitInstance
 import com.example.hotelapp.database.HotelDatabase
+import com.example.hotelapp.model.Booking
 import com.example.hotelapp.model.bookingBody
 
 class HotelRepository(val db : HotelDatabase) {
@@ -14,4 +15,10 @@ class HotelRepository(val db : HotelDatabase) {
     suspend fun searchHotel(cityQuery: String, guestNumber: Int) = RetrofitInstance.api.searchHotel(cityQuery,guestNumber)
 
     suspend fun userBooking(userId: String,header: String,bookingBody: bookingBody) = RetrofitInstance.api.makeBooking(userId,header,bookingBody)
+
+    suspend fun getUserBooking(userId: String,header: String) = RetrofitInstance.api.getUserBooking(userId,header)
+
+    suspend fun getUserCancelBooking(userId: String,header: String) = RetrofitInstance.api.getUserCancelBooking(userId,header)
+
+    suspend fun cancelUserBooking(userId: String, bookingId: String, header: String) = RetrofitInstance.api.cancelBooking(userId,bookingId, header)
 }
