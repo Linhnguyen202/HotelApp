@@ -4,12 +4,18 @@ import android.app.Application
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import androidx.paging.Pager
+import androidx.paging.PagingConfig
+import androidx.paging.cachedIn
 import com.example.hotelapp.model.HotelResponse
 import com.example.hotelapp.model.Search
+import com.example.hotelapp.paging.HotelPagingSource
+import com.example.hotelapp.paging.TypeHotelPagingSource
 import com.example.hotelapp.repository.AuthRepository
 import com.example.hotelapp.repository.HotelRepository
 import com.example.hotelapp.utils.Resource
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.launch
 import retrofit2.Response
 
@@ -38,6 +44,16 @@ class HotelViewModel(val app: Application, val hotelRepository: HotelRepository)
         }
 
     }
+
+    val hotelListPage = Pager(PagingConfig(1)){
+        HotelPagingSource(hotelRepository)
+    }.flow.cachedIn(viewModelScope)
+
+
+    val hotelTypePage = Pager(PagingConfig(1)){
+        TypeHotelPagingSource(hotelRepository,this@HotelViewModel.DATA_TYPE!!)
+    }.flow.cachedIn(viewModelScope)
+
     private fun getHotelData() = viewModelScope.launch(Dispatchers.IO) {
         hotelList.postValue(Resource.Loading())
         val response = hotelRepository.getHotelData(1,10);

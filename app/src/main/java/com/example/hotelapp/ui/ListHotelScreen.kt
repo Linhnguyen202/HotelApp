@@ -8,6 +8,7 @@ import android.view.ViewGroup
 import android.widget.Toast
 import androidx.core.os.bundleOf
 import androidx.lifecycle.ViewModelProvider
+import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import com.example.hotelapp.R
@@ -25,6 +26,7 @@ import com.example.hotelapp.viewModel.FavorViewModel.FavorViewModel
 import com.example.hotelapp.viewModel.FavorViewModel.FavorViewModelProviderFactory
 import com.example.hotelapp.viewModel.HotelViewModel
 import com.example.hotelapp.viewModel.HotelViewModelProviderFactory
+import kotlinx.coroutines.flow.collect
 
 
 class ListHotelScreen : Fragment() {
@@ -133,20 +135,9 @@ class ListHotelScreen : Fragment() {
     private fun addData() {
         binding.toolbarTitle.titleToolbar.text = "${args.type} Hotel"
         hotelViewModel.setDataType(args.type)
-        hotelViewModel.popularHotelList.observe(viewLifecycleOwner){
-            when(it){
-                is Resource.Success -> {
-                    it.data?.let { HotelResponse ->
-                        adapter.differ.submitList(HotelResponse.result.toList())
-
-                    }
-                }
-                is Resource.Error -> {
-
-                }
-                is Resource.Loading -> {
-
-                }
+        lifecycleScope.launchWhenCreated {
+            hotelViewModel.hotelTypePage.collect{
+                adapter.submitData(it)
             }
         }
     }

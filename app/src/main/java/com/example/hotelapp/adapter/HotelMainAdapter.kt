@@ -11,6 +11,8 @@ import android.widget.TextView
 import androidx.cardview.widget.CardView
 import androidx.compose.ui.graphics.Color
 import androidx.core.content.ContextCompat
+import androidx.paging.PagingData
+import androidx.paging.PagingDataAdapter
 import androidx.recyclerview.widget.AsyncListDiffer
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
@@ -19,7 +21,7 @@ import com.example.hotelapp.MainActivity
 import com.example.hotelapp.R
 import com.example.hotelapp.model.Hotel
 
-class HotelMainAdapter(val onClickItem : (Hotel) -> Unit, val onClickFavorButton: (Hotel)->Unit, val onClickRemoveFavorButton: (Hotel)->Unit,val checkFavorHotel : (Hotel) -> Boolean) : RecyclerView.Adapter<HotelMainAdapter.HotelMainViewModel>() {
+class   HotelMainAdapter(val onClickItem : (Hotel) -> Unit, val onClickFavorButton: (Hotel)->Unit, val onClickRemoveFavorButton: (Hotel)->Unit,val checkFavorHotel : (Hotel) -> Boolean) : PagingDataAdapter<Hotel,HotelMainAdapter.HotelMainViewModel>(differCallback) {
 
     inner class HotelMainViewModel(view: View) : RecyclerView.ViewHolder(view){
         private var titleCardTxt : TextView = view.findViewById(R.id.titleCardTxt)
@@ -57,23 +59,24 @@ class HotelMainAdapter(val onClickItem : (Hotel) -> Unit, val onClickFavorButton
     }
 
     override fun onBindViewHolder(holder: HotelMainViewModel, position: Int) {
-        val value =differ.currentList[position]
+        val value = getItem(position)!!
         holder.init(value)
+        holder.setIsRecyclable(false)
     }
 
-    override fun getItemCount(): Int {
-        return differ.currentList.size
-    }
-    private val differCallback = object : DiffUtil.ItemCallback<Hotel>(){
-        override fun areItemsTheSame(oldItem: Hotel, newItem: Hotel): Boolean {
-            return oldItem._id == newItem._id
+   companion object {
+       private val differCallback = object : DiffUtil.ItemCallback<Hotel>(){
+           override fun areItemsTheSame(oldItem: Hotel, newItem: Hotel): Boolean {
+               return oldItem._id == newItem._id
 
-        }
+           }
 
-        override fun areContentsTheSame(oldItem: Hotel, newItem: Hotel): Boolean {
-            return oldItem == newItem
-        }
+           override fun areContentsTheSame(oldItem: Hotel, newItem: Hotel): Boolean {
+               return oldItem == newItem
+           }
 
-    }
-    val differ = AsyncListDiffer(this,differCallback)
+       }
+   }
+
+//    val differ = AsyncListDiffer(this,differCallback)
 }

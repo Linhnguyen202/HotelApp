@@ -8,8 +8,11 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.core.os.bundleOf
+import androidx.core.view.isVisible
 import androidx.lifecycle.ViewModelProvider
+import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
+import androidx.paging.LoadState
 import com.example.hotelapp.R
 import com.example.hotelapp.adapter.HotelMainAdapter
 import com.example.hotelapp.application.HotelApplication
@@ -22,10 +25,12 @@ import com.example.hotelapp.repository.FavorRepository
 import com.example.hotelapp.repository.HotelRepository
 import com.example.hotelapp.share.sharePreferenceUtils
 import com.example.hotelapp.utils.Resource
+import com.example.hotelapp.utils.loadingDialog
 import com.example.hotelapp.viewModel.FavorViewModel.FavorViewModel
 import com.example.hotelapp.viewModel.FavorViewModel.FavorViewModelProviderFactory
 import com.example.hotelapp.viewModel.HotelViewModel
 import com.example.hotelapp.viewModel.HotelViewModelProviderFactory
+import kotlinx.coroutines.flow.collect
 
 
 class ExploreScreen : Fragment() {
@@ -88,67 +93,63 @@ class ExploreScreen : Fragment() {
     }
     private fun addData() {
         hotelViewModel.setDataType("ALL");
-        hotelViewModel.hotelList.observe(viewLifecycleOwner){
-            when(it){
-                is Resource.Success -> {
-                    it.data?.let { HotelResponse->
-                        adapter.differ.submitList(HotelResponse.result.toList())
-                    }
-                }
-                is Resource.Error -> {
-
-                }
-                is Resource.Loading -> {
-                    Toast.makeText(requireContext(),"Loading data",Toast.LENGTH_LONG).show()
-                }
+        lifecycleScope.launchWhenCreated {
+            hotelViewModel.hotelListPage.collect{
+                adapter.submitData(it)
+            }
+        }
+        lifecycleScope.launchWhenCreated {
+            adapter.loadStateFlow.collect{
+                val state = it.refresh
+                binding.progessBar.isVisible = state is LoadState.Loading
             }
         }
         parentHotelViewModel.searchData.observe(viewLifecycleOwner){
-            handleSearchingData(it)
+//            handleSearchingData(it)
         }
 
     }
-    private fun handleSearchingData(search: Search){
-        this.search = search
-        val cityQuery: String = search.place.toString()
-        val guestNumber: Int = search.adults?.toInt() ?: 0
-        if(cityQuery != ""){
-            hotelViewModel.getSearching(cityQuery,guestNumber)
-            hotelViewModel.hotelListSearching.observe(viewLifecycleOwner){
-                when(it){
-                    is Resource.Success -> {
-                        it.data?.let { HotelResponse->
-                            adapter.differ.submitList(HotelResponse.result.toList())
-                        }
-                    }
-                    is Resource.Error -> {
-
-                    }
-                    is Resource.Loading -> {
-                        Toast.makeText(requireContext(),"Loading data",Toast.LENGTH_LONG).show()
-                    }
-                }
-            }
-        }
-        else{
-            hotelViewModel.hotelList.observe(viewLifecycleOwner){
-                when(it){
-                    is Resource.Success -> {
-                        it.data?.let { HotelResponse->
-                            adapter.differ.submitList(HotelResponse.result.toList())
-                        }
-                    }
-                    is Resource.Error -> {
-
-                    }
-                    is Resource.Loading -> {
-                        Toast.makeText(requireContext(),"Loading data",Toast.LENGTH_LONG).show()
-                    }
-                }
-            }
-        }
-
-    }
+//    private fun handleSearchingData(search: Search){
+//        this.search = search
+//        val cityQuery: String = search.place.toString()
+//        val guestNumber: Int = search.adults?.toInt() ?: 0
+//        if(cityQuery != ""){
+//            hotelViewModel.getSearching(cityQuery,guestNumber)
+//            hotelViewModel.hotelListSearching.observe(viewLifecycleOwner){
+//                when(it){
+//                    is Resource.Success -> {
+//                        it.data?.let { HotelResponse->
+//                            adapter.differ.submitList(HotelResponse.result.toList())
+//                        }
+//                    }
+//                    is Resource.Error -> {
+//
+//                    }
+//                    is Resource.Loading -> {
+//                        Toast.makeText(requireContext(),"Loading data",Toast.LENGTH_LONG).show()
+//                    }
+//                }
+//            }
+//        }
+//        else{
+//            hotelViewModel.hotelList.observe(viewLifecycleOwner){
+//                when(it){
+//                    is Resource.Success -> {
+//                        it.data?.let { HotelResponse->
+//                            adapter.differ.submitList(HotelResponse.result.toList())
+//                        }
+//                    }
+//                    is Resource.Error -> {
+//
+//                    }
+//                    is Resource.Loading -> {
+//                        Toast.makeText(requireContext(),"Loading data",Toast.LENGTH_LONG).show()
+//                    }
+//                }
+//            }
+//        }
+//
+//    }
     fun setData(search: Search) {
        Toast.makeText(requireContext(),search.toString(),Toast.LENGTH_LONG).show()
     }
