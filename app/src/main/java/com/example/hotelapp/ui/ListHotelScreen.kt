@@ -63,12 +63,16 @@ class ListHotelScreen : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        setUpItem()
+        addData()
+        addEvent()
+    }
+
+    private fun setUpItem() {
         adapter = HotelMainAdapter(onClickItem,onClickFavorButton,onClickRemoveFavorButton,checkFavorHotel)
         binding.hotelRv.apply {
             adapter = this@ListHotelScreen.adapter
         }
-        addData()
-        addEvent()
     }
 
     private fun addEvent() {

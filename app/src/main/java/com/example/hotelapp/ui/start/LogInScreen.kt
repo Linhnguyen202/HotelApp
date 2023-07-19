@@ -57,8 +57,10 @@ class LogInScreen : Fragment(), View.OnClickListener,View.OnFocusChangeListener,
         binding.emailEditText.onFocusChangeListener = this
         binding.passEditText.onFocusChangeListener  = this
         binding.sigInButton.setOnClickListener(this)
-        addEvent()
         binding.guest.paintFlags = binding.guest.getPaintFlags() or Paint.UNDERLINE_TEXT_FLAG
+
+        addEvent()
+
     }
 
     private fun addEvent() {

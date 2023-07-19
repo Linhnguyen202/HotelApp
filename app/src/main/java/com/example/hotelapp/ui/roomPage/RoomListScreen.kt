@@ -50,12 +50,17 @@ class RoomListScreen : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
+        setUpItem()
+        addData()
+        addEvents()
+    }
+
+    private fun setUpItem() {
         adapter = RoomAdapter(onClick)
         binding.roomRv.apply {
             adapter = this@RoomListScreen.adapter
         }
-        addData()
-        addEvents()
     }
 
     private fun addEvents() {

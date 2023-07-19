@@ -45,7 +45,7 @@ class CancelScreen : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        setUp()
+        setUpItem()
         if(sharePreferenceUtils.isSharedPreferencesExist(requireContext(),"USER","TOKEN_VALUE") && sharePreferenceUtils.isSharedPreferencesExist(requireContext(),"USER","USER_VALUE")){
             addData()
         }
@@ -53,7 +53,7 @@ class CancelScreen : Fragment() {
 
         }
     }
-    private fun setUp() {
+    private fun setUpItem() {
         adapter = UserBookingAdapter(onClickItem)
         binding.currentBookingRv.apply {
             adapter = this@CancelScreen.adapter
