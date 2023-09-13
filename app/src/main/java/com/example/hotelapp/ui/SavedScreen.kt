@@ -113,7 +113,7 @@ class SavedScreen : Fragment() {
             when(it){
                 is Resource.Success -> {
                     it.data?.let { PostFavorResponse->
-                      loadingDialog.endLoading(requireContext())
+//                      loadingDialog.endLoading(requireContext())
 
                     }
                 }
@@ -121,7 +121,7 @@ class SavedScreen : Fragment() {
 
                 }
                 is Resource.Loading -> {
-                    loadingDialog.startLoading(requireContext())
+//                    loadingDialog.startLoading(requireContext())
                 }
             }
         }

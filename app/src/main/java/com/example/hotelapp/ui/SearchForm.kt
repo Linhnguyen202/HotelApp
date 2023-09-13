@@ -5,6 +5,8 @@ import android.content.Context
 import android.content.Context.INPUT_METHOD_SERVICE
 import android.content.res.Resources
 import android.os.Bundle
+import android.text.Editable
+import android.text.TextWatcher
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -32,7 +34,7 @@ import java.text.SimpleDateFormat
 import java.util.*
 
 
-class SearchForm : BottomSheetDialogFragment() {
+class SearchForm : BottomSheetDialogFragment(), TextWatcher{
     lateinit var binding : FragmentSearchFormBinding
     lateinit var dialog: BottomSheetDialog
     lateinit var bottomSheetBehavior: BottomSheetBehavior<View>
@@ -69,7 +71,9 @@ class SearchForm : BottomSheetDialogFragment() {
         addEvents()
 
     }
+    private fun checkValueSearch(){
 
+    }
     private fun addEvents() {
         // get time
         addTimePicker()
@@ -77,12 +81,11 @@ class SearchForm : BottomSheetDialogFragment() {
             bottomSheetBehavior.state = BottomSheetBehavior.STATE_HIDDEN
         }
         binding.searchBtn.setOnClickListener {
-            var placeSearch = binding.searchInput.text.toString();
+            var placeSearch = binding.searchInput.text.toString().trim();
             var rooms = binding.roomNumberTxt.text.toString()
             var adult = binding.adultsNumberTxt.text.toString()
-            var children = binding.childrenNumberTxt.text.toString();
             var timePick = binding.timePick.text.toString()
-            var searchData = Search(placeSearch,timePick,rooms,adult,children)
+            var searchData = Search(placeSearch,timePick,rooms,adult,"")
             hotelViewModel.setDataSearch(searchData)
             binding.searchInput.text.clear()
             dismiss()
@@ -94,9 +97,13 @@ class SearchForm : BottomSheetDialogFragment() {
         addMoreData(binding.plusAdultsIcon, binding.adultsNumberTxt)
         removeData(binding.minusAdultsIcon, binding.adultsNumberTxt)
 
-        addMoreData(binding.plusChildrenIcon, binding.childrenNumberTxt)
-        removeData(binding.minusChildrenIcon, binding.childrenNumberTxt)
 
+
+        // handle enable button
+        binding.searchInput.addTextChangedListener(this)
+        binding.timePick.addTextChangedListener(this)
+        binding.roomNumberTxt.addTextChangedListener(this)
+        binding.adultsNumberTxt.addTextChangedListener(this)
 
     }
     private fun removeData(button : ImageView, textView: TextView){
@@ -146,9 +153,38 @@ class SearchForm : BottomSheetDialogFragment() {
             datePicker.show(parentFragmentManager,"Matarial Manager")
             datePicker.addOnPositiveButtonClickListener {
                 val simpleDate = SimpleDateFormat("dd/MM/yyyy",Locale.getDefault())
-                binding.timePick.text = "${simpleDate.format(it.first)}-${simpleDate.format(it.second)}"
+                val newDate : String = "${simpleDate.format(it.first)}-${simpleDate.format(it.second)}"
+                binding.timePick.setText(newDate)
             }
         }
     }
+
+    override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {
+
+    }
+
+    override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
+        val enteredText = s.toString().trim()
+        if(enteredText.isNullOrEmpty() || enteredText.isBlank() || enteredText.equals("0")){
+            binding.searchBtn.isEnabled = false
+            binding.searchBtn.setBackgroundColor(android.graphics.Color.parseColor("#66c50a27"))
+        }
+        else{
+            binding.searchBtn.isEnabled = true
+            binding.searchBtn.setBackgroundColor(android.graphics.Color.parseColor("#c50a27"))
+
+        }
+    }
+
+    override fun afterTextChanged(s: Editable?) {
+
+    }
+
+    override fun onStop() {
+        super.onStop()
+        binding.searchInput.setText("")
+
+    }
+
 
 }

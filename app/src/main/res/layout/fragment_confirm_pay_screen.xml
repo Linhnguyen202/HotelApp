@@ -111,7 +111,7 @@
                 android:layout_height="wrap_content"
                 android:orientation="vertical">
                 <TextView
-                    android:text="Summary of charges"
+                    android:text="@string/summary_of_charges"
                     android:textColor="#777E90"
                     android:textSize="16dp"
                     android:textStyle="bold"
@@ -123,7 +123,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginBottom="8dp">
                     <TextView
-                        android:text="Price"
+                        android:text="@string/price"
                         android:textColor="@color/black"
                         android:textStyle="bold"
                         android:textSize="16sp"
@@ -146,15 +146,15 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginBottom="8dp">
+
                     <TextView
-                        android:text="Service charge"
-                        android:textColor="@color/black"
-                        android:textStyle="bold"
-                        android:textSize="16sp"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_alignParentStart="true"
-                        />
+                        android:text="@string/service_charge"
+                        android:textColor="@color/black"
+                        android:textSize="16sp"
+                        android:textStyle="bold" />
                     <TextView
                         android:id="@+id/serviceTxt"
                         android:text="20 USD"
@@ -171,7 +171,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginBottom="8dp">
                     <TextView
-                        android:text="Taxes and fee"
+                        android:text="@string/taxes_and_fee"
                         android:textColor="@color/black"
                         android:textStyle="bold"
                         android:textSize="16sp"
@@ -201,7 +201,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="8dp">
                 <TextView
-                    android:text="Total stay"
+                    android:text="@string/total_stay"
                     android:textColor="@color/black"
                     android:textStyle="bold"
                     android:textSize="16sp"
@@ -221,7 +221,7 @@
                     />
             </RelativeLayout>
             <TextView
-                android:text="Additional charges"
+                android:text="@string/addition_charge"
                 android:textColor="#777E90"
                 android:textSize="16dp"
                 android:textStyle="bold"
@@ -230,7 +230,7 @@
                 android:layout_marginTop="15dp"
                 android:layout_marginBottom="12dp"/>
             <TextView
-                android:text="Complimentary on-site parking Changes in taxes and fees will aff affect the total room price"
+                android:text="@string/addition_charge_content"
                 android:textColor="@color/black"
                 android:lineHeight="20sp"
                 android:textSize="14dp"
@@ -265,7 +265,7 @@
                     android:layoutDirection="rtl"
                     android:textAlignment="textStart"
                     android:layout_gravity="start"
-                    android:text="Pay when you stay"
+                    android:text="@string/pay_when_u_stay"
                     android:textSize="14sp" />
                 <RadioButton
                     android:id="@+id/pay_two"
@@ -275,7 +275,7 @@
                     android:layoutDirection="rtl"
                     android:textAlignment="textStart"
                     android:layout_gravity="start"
-                    android:text="Pre pay"
+                    android:text="@string/pre_pay"
                     android:textSize="14sp" />
             </RadioGroup>
             <androidx.cardview.widget.CardView
@@ -289,7 +289,7 @@
                 <TextView
                     android:padding="10dp"
                     android:textColor="@color/white"
-                    android:text="Book now"
+                    android:text="@string/book_now"
                     android:gravity="center_horizontal"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"/>

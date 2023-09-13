@@ -28,7 +28,8 @@
             app:layout_constraintBottom_toBottomOf="parent"
             android:layout_width="match_parent"
             android:layout_height="?actionBarSize"
-            app:menu="@menu/menu"/>
+            app:menu="@menu/menu"
+            style="@style/SCREEN_2"/>
     </androidx.constraintlayout.widget.ConstraintLayout>
 
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

@@ -3,6 +3,7 @@
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    style="@style/SCREEN_2"
     >
     <androidx.cardview.widget.CardView
         android:id="@+id/hotelItemCard"
@@ -13,10 +14,12 @@
         app:cardCornerRadius="14dp"
         app:cardElevation="4dp"
         app:cardUseCompatPadding="true"
-        app:cardMaxElevation="4dp">
+        app:cardMaxElevation="4dp"
+        style="@style/SCREEN_2">
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content">
+            android:layout_height="wrap_content"
+            style="@style/SCREEN_2">
             <ImageView
                 app:layout_constraintTop_toTopOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
@@ -31,12 +34,13 @@
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/thumbnailCard"
                 app:layout_constraintStart_toStartOf="parent"
-                android:padding="18dp">
+                android:padding="18dp"
+                style="@style/SCREEN_2">
                 <TextView
                     android:id="@+id/titleCardTxt"
                     android:text="1 King bed, guest room, Non-smoking"
                     android:textSize="16sp"
-                    android:textColor="@color/black"
+                    style="@style/TEXT"
                     android:textStyle="bold"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"

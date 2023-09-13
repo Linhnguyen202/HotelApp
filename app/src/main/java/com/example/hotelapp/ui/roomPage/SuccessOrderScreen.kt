@@ -39,12 +39,12 @@ class SuccessOrderScreen : Fragment() {
     @SuppressLint("SetTextI18n")
     private fun addData() {
         val booking = args.booking
-        binding.confirmTxt.text = "A confirmation email has been sent to ${booking.user.email}"
+        binding.confirmTxt.text = getString(R.string.confirm_content)+" ${booking.user.email}"
         binding.phoneNumber.text = booking.user.phoneNumber.toString()
         binding.hotelName.text = booking.hotel.name.toString()
         binding.roomName.text = booking.room.name.toString()
         binding.paymentType.text = booking.paymentType.toString()
-        binding.roomNumberInfo.text = booking.numberRoom.toString() + " room, " + booking.guestNumber.toString() + " guest"
+        binding.roomNumberInfo.text = booking.numberRoom.toString() + " ${getString(R.string.room).lowercase()}, " + booking.guestNumber.toString() + " ${getString(R.string.guest)}"
         val dateFormat = SimpleDateFormat("dd/MM/yyyy")
         val bookingStartDate  = dateFormat.parse(booking.startDate)
         val bookingEndDate  = dateFormat.parse(booking.endDate)

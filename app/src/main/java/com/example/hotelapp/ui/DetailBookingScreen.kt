@@ -2,6 +2,7 @@ package com.example.hotelapp.ui
 
 import android.os.Build
 import android.os.Bundle
+import android.text.TextWatcher
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
@@ -89,6 +90,12 @@ class DetailBookingScreen : Fragment() {
         val formattedDate = instant.atZone(zoneId).toLocalDate().format(DateTimeFormatter.ofPattern("dd/MM/yyyy"))
         val distanceBooking = handleDistance(formattedDate,dateString)
         binding.timeInfoTxt.text = "${args.booking.startDate} - ${args.booking.startDate} (${distance.toString()})}"
+        checkMyBookingTimeCancel(distanceBooking)
+        binding.btnCancel.setOnClickListener{
+            submitCancel()
+        }
+    }
+    private fun checkMyBookingTimeCancel(distanceBooking: Int){
         if(distanceBooking > 3){
             binding.btnCancel.isEnabled = false
             binding.btnCancel.setBackgroundColor(android.graphics.Color.parseColor("#66c50a27"))
@@ -97,10 +104,8 @@ class DetailBookingScreen : Fragment() {
             binding.btnCancel.isEnabled = true
             binding.btnCancel.setBackgroundColor(android.graphics.Color.parseColor("#c50a27"))
         }
-        binding.btnCancel.setOnClickListener{
-            submitCancel()
-        }
     }
+
     private fun submitCancel(){
         val booking = args.booking
         userViewModel.cancelUserBooking(booking.user._id, booking._id,sharePreferenceUtils.getToken(requireContext()).toString())
@@ -108,7 +113,7 @@ class DetailBookingScreen : Fragment() {
             when(it){
                 is Resource.Success -> {
                     it.data?.let { BookingResponse ->
-                       loadingDialog.endLoading(requireContext())
+//                       loadingDialog.endLoading()
                         findNavController().popBackStack()
                     }
                 }
@@ -116,7 +121,7 @@ class DetailBookingScreen : Fragment() {
 
                 }
                 is Resource.Loading -> {
-                    loadingDialog.startLoading(requireContext())
+//                    loadingDialog.startLoading()
                 }
             }
         }

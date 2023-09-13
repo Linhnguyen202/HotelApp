@@ -1,9 +1,13 @@
 package com.example.hotelapp.api
 
 import com.example.hotelapp.model.*
+import okhttp3.ResponseBody
+import retrofit2.Call
 import retrofit2.Response
 import retrofit2.http.Body
 import retrofit2.http.DELETE
+import retrofit2.http.Field
+import retrofit2.http.FormUrlEncoded
 import retrofit2.http.GET
 import retrofit2.http.Header
 import retrofit2.http.POST
@@ -36,6 +40,10 @@ interface HotelApi {
         cityQuery: String? = null,
         @Query("guestNumber")
         guestQuery: Int? = null,
+        @Query("page")
+        pageNumber: Int = 1,
+        @Query("limit")
+        limitNumber: Int = 10,
     ) : Response<HotelResponse>
 
     @GET("hotels/{hotelId}/rooms")
@@ -51,7 +59,13 @@ interface HotelApi {
 
     @POST("user/signIn")
     suspend fun logInUser(
-        @Body body: SignInBody
+        @Body signInBody: SignInBody
+    ) : Response<UserResponse>
+
+    @PUT("user/{userId}")
+    suspend fun updateProfile(
+        @Path("userId") userId: String,
+        @Body body: User
     ) : Response<UserResponse>
 
     @POST("user/{userId}/booking")

@@ -120,7 +120,7 @@
                android:background="#E6E8EC"/>
            <TextView
                android:id="@+id/descripTitle"
-               android:text="Overview"
+               android:text="@string/overview"
                android:textSize="20sp"
                android:textStyle="bold"
                android:textColor="@color/black"
@@ -150,7 +150,7 @@
                android:background="#E6E8EC"/>
            <TextView
                android:id="@+id/previewTitle"
-               android:text="Where you'll sleep"
+               android:text="@string/sleep_pic_title"
                android:textSize="20sp"
                android:textStyle="bold"
                android:textColor="@color/black"
@@ -171,7 +171,7 @@
                android:background="#E6E8EC"/>
            <TextView
                android:id="@+id/offerTitle"
-               android:text="What this place offers"
+               android:text="@string/place_offer_title"
                android:textSize="20sp"
                android:textStyle="bold"
                android:textColor="@color/black"
@@ -216,7 +216,7 @@
                 android:id="@+id/nightCardTxt"
                 app:layout_constraintStart_toEndOf="@+id/priceCardText"
                 app:layout_constraintBottom_toBottomOf="@+id/priceCardText"
-                android:text=" /night"
+                android:text="@string/night"
                 android:textStyle="bold"
                 android:textSize="14sp"
                 android:layout_width="wrap_content"
@@ -227,7 +227,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginEnd="16dp"
-                android:text="Select room"
+                android:text="@string/select_room"
                 android:textAllCaps="false"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"

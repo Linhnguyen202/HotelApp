@@ -4,6 +4,7 @@
     android:layout_height="wrap_content"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/normalLayout"
+    style="@style/SCREEN_2"
     >
     <androidx.cardview.widget.CardView
         app:layout_constraintStart_toStartOf="parent"
@@ -13,11 +14,13 @@
         app:cardCornerRadius="10dp"
         app:cardElevation="0dp"
         android:layout_marginVertical="12dp"
+        style="@style/SCREEN_2"
         >
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:padding="10dp">
+            android:padding="10dp"
+            style="@style/SCREEN_2">
             <androidx.cardview.widget.CardView
                 android:id="@+id/imageWrap"
                 app:layout_constraintStart_toStartOf="parent"
@@ -46,7 +49,7 @@
                 <TextView
                     android:id="@+id/titleHotelNor"
                     android:text="Novotel Hotel"
-                    android:textColor="@color/black"
+                    style="@style/TEXT"
                     android:textSize="16sp"
                     android:textStyle="bold"
                     app:layout_constraintStart_toStartOf="parent"

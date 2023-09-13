@@ -15,7 +15,7 @@ import com.bumptech.glide.Glide
 import com.example.hotelapp.R
 import com.example.hotelapp.model.Hotel
 
-class PopularHomeAdapter(var onClick : (Hotel)->Unit,var onClickFavorButton: (Hotel) -> Unit, var onClickRemoveFavorButton : (Hotel) -> Unit ) : RecyclerView.Adapter<PopularHomeAdapter.PopularHomeViewModel>() {
+class PopularHomeAdapter(var onClick : (Hotel)->Unit,var onClickFavorButton: (Hotel,Boolean) -> Boolean) : RecyclerView.Adapter<PopularHomeAdapter.PopularHomeViewModel>() {
     inner class PopularHomeViewModel(view: View) : RecyclerView.ViewHolder(view){
         private var titleHotelNor : TextView = view.findViewById(R.id.titleHotelNor)
         private var priceHotelNor : TextView = view.findViewById(R.id.priceHotelNor)
@@ -37,12 +37,7 @@ class PopularHomeAdapter(var onClick : (Hotel)->Unit,var onClickFavorButton: (Ho
             Glide.with(this.itemView).load(hotel.image).into(bannerHotel)
 
             likeButton.setOnCheckedChangeListener { checkbox, isChecked ->
-                if(isChecked){
-                    onClickFavorButton.invoke(hotel)
-                }
-                else{
-                    onClickRemoveFavorButton.invoke(hotel)
-                }
+                likeButton.isChecked = onClickFavorButton.invoke(hotel,isChecked)
             }
         }
     }

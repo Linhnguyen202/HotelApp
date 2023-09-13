@@ -38,7 +38,7 @@
                 android:id="@+id/nameEditText"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:hint="Fullname"
+                android:hint="@string/fullname"
                 android:inputType="textEmailAddress"
                 android:lines="1" />
         </com.google.android.material.textfield.TextInputLayout>
@@ -53,7 +53,7 @@
                 android:id="@+id/phoneEditText"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:hint="Phone number"
+                android:hint="@string/phone_number"
                 android:inputType="textEmailAddress"
                 android:lines="1" />
         </com.google.android.material.textfield.TextInputLayout>
@@ -85,7 +85,7 @@
                 android:id="@+id/passEditText"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:hint="Password"
+                android:hint="@string/password"
                 android:inputType="textPassword"
                 android:lines="1" />
         </com.google.android.material.textfield.TextInputLayout>
@@ -101,7 +101,7 @@
                 android:id="@+id/confirmPassEditText"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:hint="Confirm password"
+                android:hint="@string/confirm_pass"
                 android:inputType="textPassword"
                 android:lines="1" />
         </com.google.android.material.textfield.TextInputLayout>
@@ -109,7 +109,7 @@
         <Button
             android:id="@+id/signupBtn"
             android:layout_marginTop="20dp"
-            android:text="Sign Up"
+            android:text="@string/signUp"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:backgroundTint="#C8102E"
@@ -121,14 +121,14 @@
             <TextView
                 android:id="@+id/titleTxt"
                 android:textSize="16sp"
-                android:text="Already have an account?"
+                android:text="@string/have_account"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                />
             <TextView
                 android:id="@+id/signInTxt"
                 android:textSize="16sp"
-                android:text="Sign In"
+                android:text="@string/signIn"
                 android:textColor="#C8102E"
                 android:layout_toEndOf="@+id/titleTxt"
                 android:layout_width="wrap_content"

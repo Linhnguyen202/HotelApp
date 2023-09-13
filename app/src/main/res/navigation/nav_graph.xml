@@ -49,6 +49,13 @@
         <action
             android:id="@+id/action_profileScreen_to_splashActivity"
             app:destination="@id/splashActivity" />
+        <action
+            android:id="@+id/action_profileScreen_to_editUserScreen"
+            app:destination="@id/editUserScreen" />
+        <action
+            android:id="@+id/action_profileScreen_to_listSettingScreen"
+            app:destination="@id/listSettingScreen" />
+
     </fragment>
     <fragment
         android:id="@+id/exploreScreen"
@@ -103,5 +110,24 @@
         <argument
             android:name="type"
             app:argType="string" />
+    </fragment>
+    <fragment
+        android:id="@+id/editUserScreen"
+        android:name="com.example.hotelapp.ui.ProfilePage.EditUserScreen"
+        android:label="fragment_edit_user_screen"
+        tools:layout="@layout/fragment_edit_user_screen" />
+    <fragment
+        android:id="@+id/languageSettingScreen"
+        android:name="com.example.hotelapp.ui.ProfilePage.LanguageSettingScreen"
+        android:label="fragment_language_setting_screen"
+        tools:layout="@layout/fragment_language_setting_screen" />
+    <fragment
+        android:id="@+id/listSettingScreen"
+        android:name="com.example.hotelapp.ui.ProfilePage.ListSettingScreen"
+        android:label="fragment_list_setting_screen"
+        tools:layout="@layout/fragment_list_setting_screen" >
+        <action
+            android:id="@+id/action_listSettingScreen_to_languageSettingScreen"
+            app:destination="@id/languageSettingScreen" />
     </fragment>
 </navigation>

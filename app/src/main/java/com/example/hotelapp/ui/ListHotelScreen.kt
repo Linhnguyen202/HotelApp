@@ -18,6 +18,7 @@ import com.example.hotelapp.database.HotelDatabase
 import com.example.hotelapp.databinding.FragmentListHotelScreenBinding
 import com.example.hotelapp.model.FavorBody
 import com.example.hotelapp.model.Hotel
+import com.example.hotelapp.model.HotelResponse
 import com.example.hotelapp.repository.FavorRepository
 import com.example.hotelapp.repository.HotelRepository
 import com.example.hotelapp.share.sharePreferenceUtils
@@ -26,7 +27,6 @@ import com.example.hotelapp.viewModel.FavorViewModel.FavorViewModel
 import com.example.hotelapp.viewModel.FavorViewModel.FavorViewModelProviderFactory
 import com.example.hotelapp.viewModel.HotelViewModel
 import com.example.hotelapp.viewModel.HotelViewModelProviderFactory
-import kotlinx.coroutines.flow.collect
 
 
 class ListHotelScreen : Fragment() {
@@ -69,7 +69,7 @@ class ListHotelScreen : Fragment() {
     }
 
     private fun setUpItem() {
-        adapter = HotelMainAdapter(onClickItem,onClickFavorButton,onClickRemoveFavorButton,checkFavorHotel)
+        adapter = HotelMainAdapter(onClickItem,onClickFavorButton,checkFavorHotel)
         binding.hotelRv.apply {
             adapter = this@ListHotelScreen.adapter
         }
@@ -91,54 +91,63 @@ class ListHotelScreen : Fragment() {
     private val checkFavorHotel : (Hotel) -> Boolean = {
        false
     }
-    private val onClickFavorButton : (Hotel) -> Unit = {
-        val authen = "Bearer ${sharePreferenceUtils.getToken(requireContext())}"
-        val userId = sharePreferenceUtils.getUser(requireContext())._id
-        val hotelId = it._id
-        val favorBody = FavorBody(hotelId,userId)
-        favorViewModel.makeFavor(userId,authen,favorBody)
-        favorViewModel.postFavorResponse.observe(viewLifecycleOwner){
-            when(it){
-                is Resource.Success -> {
-                    it.data?.let { PostFavorResponse->
-                        Toast.makeText(requireContext(),PostFavorResponse.toString(), Toast.LENGTH_LONG).show()
+    private val onClickFavorButton : (Hotel, Boolean) -> Boolean = { hotel, isCheck ->
+        if(sharePreferenceUtils.isSharedPreferencesExist(requireContext(),"USER","TOKEN_VALUE") && sharePreferenceUtils.isSharedPreferencesExist(requireContext(),"USER","USER_VALUE")){
+            val authen = "Bearer ${sharePreferenceUtils.getToken(requireContext())}"
+            val userId = sharePreferenceUtils.getUser(requireContext())._id
+            val hotelId = hotel._id
+            val favorBody = FavorBody(hotelId,userId)
+            if(!isCheck){
+                favorViewModel.deleteFavor(userId,hotelId,authen)
+                favorViewModel.statusFavorResponse.observe(viewLifecycleOwner){
+                    when(it){
+                        is Resource.Success -> {
+                            it.data?.let { DeleteFavorResponse->
+                                Toast.makeText(requireContext(),DeleteFavorResponse.toString(),Toast.LENGTH_LONG).show()
+                            }
+                        }
+                        is Resource.Error -> {
+
+                        }
+                        is Resource.Loading -> {
+                            Toast.makeText(requireContext(),"Loading data",Toast.LENGTH_LONG).show()
+                        }
                     }
                 }
-                is Resource.Error -> {
-
-                }
-                is Resource.Loading -> {
-                    Toast.makeText(requireContext(),"Loading data", Toast.LENGTH_LONG).show()
-                }
+                false
             }
-        }
-    }
+            else{
+                favorViewModel.makeFavor(userId,authen,favorBody)
+                favorViewModel.postFavorResponse.observe(viewLifecycleOwner){
+                    when(it){
+                        is Resource.Success -> {
+                            it.data?.let { PostFavorResponse->
+                                Toast.makeText(requireContext(),"Successful",Toast.LENGTH_LONG).show()
+                            }
+                        }
+                        is Resource.Error -> {
 
-    private val onClickRemoveFavorButton : (Hotel) -> Unit = {
-        val authen = "Bearer ${sharePreferenceUtils.getToken(requireContext())}"
-        val userId = sharePreferenceUtils.getUser(requireContext())._id
-        val hotelId = it._id
-        val favorBody = FavorBody(hotelId,userId)
-        favorViewModel.deleteFavor(userId,hotelId,authen)
-        favorViewModel.statusFavorResponse.observe(viewLifecycleOwner){
-            when(it){
-                is Resource.Success -> {
-                    it.data?.let { DeleteFavorResponse->
-                        Toast.makeText(requireContext(),DeleteFavorResponse.toString(), Toast.LENGTH_LONG).show()
+                        }
+                        is Resource.Loading -> {
+                            Toast.makeText(requireContext(),"Loading data",Toast.LENGTH_LONG).show()
+                        }
                     }
                 }
-                is Resource.Error -> {
-
-                }
-                is Resource.Loading -> {
-                    Toast.makeText(requireContext(),"Loading data", Toast.LENGTH_LONG).show()
-                }
+                true
             }
+
         }
+        else{
+            Toast.makeText(requireContext(),"Please log in ",Toast.LENGTH_LONG).show()
+            false
+        }
+
     }
+
     private fun addData() {
+        Toast.makeText(requireContext(),"${args.type}",Toast.LENGTH_LONG).show()
         binding.toolbarTitle.titleToolbar.text = "${args.type} Hotel"
-        hotelViewModel.setDataType(args.type)
+        hotelViewModel.DATA_TYPE = args.type
         lifecycleScope.launchWhenCreated {
             hotelViewModel.hotelTypePage.collect{
                 adapter.submitData(it)

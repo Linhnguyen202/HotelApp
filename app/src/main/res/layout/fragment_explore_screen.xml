@@ -5,13 +5,14 @@
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     tools:context=".ui.ExploreScreen"
+    style="@style/SCREEN"
    >
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:paddingHorizontal="20dp"
         android:paddingTop="20dp"
-        android:background="#F5F5F5">
+        style="@style/SCREEN">
         <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/searchBox"
             android:layout_width="match_parent"
@@ -20,7 +21,8 @@
             app:layout_constraintTop_toTopOf="parent"
             android:paddingVertical="14dp"
             android:paddingHorizontal="14dp"
-            android:layout_marginTop="10dp">
+            android:layout_marginTop="10dp"
+            style="@style/SCREEN_2">
             <ImageView
                 android:id="@+id/searchIcon"
                 android:src="@drawable/ic_baseline_search_24"
@@ -33,8 +35,8 @@
             <EditText
                 android:id="@+id/searchTxt"
                 android:focusable="false"
-                android:hint="Searching"
-                android:textColorHint="@color/black"
+                android:hint="@string/searching"
+                style="@style/TEXT"
                 app:layout_constraintStart_toEndOf="@+id/searchIcon"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
@@ -46,25 +48,18 @@
                 android:layout_marginLeft="15dp"
                 />
         </androidx.constraintlayout.widget.ConstraintLayout>
-        <ProgressBar
-            android:id="@+id/progessBar"
-            android:layout_marginBottom="20dp"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            />
+
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/hotelList"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            app:layout_constraintTop_toBottomOf="@+id/searchBox"
             android:layout_marginTop="20dp"
+            android:orientation="vertical"
             android:paddingBottom="80dp"
+            style="@style/SCREEN"
             app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
-            android:orientation="vertical"/>
+            app:layout_constraintTop_toBottomOf="@+id/searchBox"
+            />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
-<!--    <include android:id="@+id/searchLayout" layout="@layout/search_form"/>-->
 </androidx.constraintlayout.widget.ConstraintLayout>

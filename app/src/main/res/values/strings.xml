@@ -1,8 +1,69 @@
 <resources>
     <string name="app_name">HotelApp</string>
+    <string name="Setting">Setting</string>
+    <string name="save_setting">Save</string>
+    <string name="home">Home</string>
+    <string name="explore">Explore</string>
+    <string name="booking">Booking</string>
+    <string name="saved">Saved</string>
+    <string name="profile">Profile</string>
+    <string name="home_bigTitle">Discover your perfect place</string>
+    <string name="trend_title">Trending Destinations</string>
+    <string name="explore_title">Explore City</string>
+    <string name="popular_title">Popular Destinations</string>
+    <string name="view_all">View all</string>
+    <string name="book_now">Book now</string>
+    <string name="searching">Searching</string>
+    <string name="favor_title">My favorite hotel</string>
+    <string name="login_warn">You haven\'t log in. Please sign in !</string>
+    <string name="signIn">Sign In</string>
+    <string name="search_location">Search location</string>
+    <string name="time_title">Time</string>
+    <string name="week">1 week</string>
+    <string name="room">Room</string>
+    <string name="people">People</string>
+    <string name="my_profile">My Profile</string>
+    <string name="noti_title">Notification</string>
+    <string name="help">Help</string>
+    <string name="logout">Log out</string>
+    <string name="current">Current</string>
+    <string name="pass">Pass</string>
+    <string name="cancel">Cancel</string>
+    <string name="overview">Overview</string>
+    <string name="sleep_pic_title">Where you\'ll sleep</string>What this place offers
+    <string name="place_offer_title">What this place offers</string>
+    <string name="select_room">Select room</string>
+    <string name="night">/night</string>
+    <string name="stay_info_title">Stay Information</string>
+    <string name="total_stay">Total stay</string>
+    <string name="guest">guest</string>
+    <string name="choose_payment_title">Please choose your payment type</string>
+    <string name="days">days</string>
+    <string name="summary_of_charges">Summary of charges</string>
+    <string name="price">Price</string>
+    <string name="service_charge">Service charge</string>
+    <string name="taxes_and_fee">Taxes and fee</string>
+    <string name="addition_charge">Additional charges</string>
+    <string name="addition_charge_content">You may cancel your reservation for no charge, before 3 days\' arrival. Please note that we will assess a fee of 160 USD if you must cancel after this deadline.</string>
+    <string name="pay_when_u_stay">Pay when you stay</string>
+    <string name="pre_pay">Pre pay</string>
+    <string name="congrat_title">Congratulations!</string>
+    <string name="confirm_content">A confirmation email has been sent to</string>
+    <string name="confirm_number">Confirm number</string>
+    <string name="password">Password</string>
+    <string name="dont_have_pass">Don\'t have an Account?</string>
+    <string name="continue_as_guest">Continue as guest</string>
+    <string name="signUp">Sign up</string>
+    <string name="fullname">Fullname</string>
+    <string name="phone_number">Phone number</string>
+    <string name="confirm_pass">Confirm password</string>
+    <string name="have_account">Already have an account?</string>
+    <string name="language">Language</string>
+    <string name="dark_mode">Dark mode</string>
+    <string name="currency">Currency</string>
     <!-- TODO: Remove or change this placeholder text -->
-    <string name="hello_blank_fragment">Hello blank fragment</string>
-    <string name="lorem_txt">Lorem Lorem ipsum,
+    <string name="hello_blank_fragment" translatable="false">Hello blank fragment</string>
+    <string name="lorem_txt" translatable="false">Lorem Lorem ipsum,
         or lipsum as it is sometimes known, i
         s dummy text used in laying out print,
         graphic or web designs. The passage is attributed
@@ -10,13 +71,13 @@
         is thought to have scrambled parts of Cicero
        orem ipsum dolor sit amet, consectetur adipiscing elit, sed do
         .</string>
-    <string name="title_activity_splash">SplashActivity</string>
+    <string name="title_activity_splash" translatable="false">SplashActivity</string>
     <!-- Strings used for fragments for navigation -->
-    <string name="first_fragment_label">First Fragment</string>
-    <string name="second_fragment_label">Second Fragment</string>
-    <string name="next">Next</string>
-    <string name="previous">Previous</string>
+    <string name="first_fragment_label" translatable="false">First Fragment</string>
+    <string name="second_fragment_label" translatable="false">Second Fragment</string>
+    <string name="next" translatable="false">Next</string>
+    <string name="previous" translatable="false">Previous</string>
 
-    <string name="hello_first_fragment">Hello first fragment</string>
-    <string name="hello_second_fragment">Hello second fragment. Arg: %1$s</string>
+    <string name="hello_first_fragment" translatable="false">Hello first fragment</string>
+    <string name="hello_second_fragment" translatable="false">Hello second fragment. Arg: %1$s</string>
 </resources>

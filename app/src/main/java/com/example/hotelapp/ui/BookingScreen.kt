@@ -59,13 +59,13 @@ class BookingScreen : Fragment() {
         TabLayoutMediator(binding.tabTrip,binding.viewPageBooking){tab,position->
             when(position){
                 0->{
-                    tab.text = "Current"
+                    tab.text = getString(R.string.current)
                 }
                 1->{
-                    tab.text = "Pass"
+                    tab.text = getString(R.string.pass)
                 }
                 2->{
-                    tab.text = "Cancel"
+                    tab.text = getString(R.string.cancel)
                 }
             }
         }.attach()

@@ -20,14 +20,18 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
 import com.example.hotelapp.MainActivity
 import com.example.hotelapp.R
+import com.example.hotelapp.application.HotelApplication
+import com.example.hotelapp.database.HotelDatabase
 import com.example.hotelapp.databinding.FragmentLogInScreenBinding
 import com.example.hotelapp.databinding.FragmentSignUpScreenBinding
 import com.example.hotelapp.model.SignInBody
 import com.example.hotelapp.model.User
 import com.example.hotelapp.model.registerBody
+import com.example.hotelapp.repository.AuthRepository
 import com.example.hotelapp.share.sharePreferenceUtils
 import com.example.hotelapp.utils.Resource
 import com.example.hotelapp.viewModel.AuthViewModel.AuthViewModel
+import com.example.hotelapp.viewModel.AuthViewModel.AuthViewModelProviderFactory
 import com.google.android.material.bottomsheet.BottomSheetBehavior
 import com.google.android.material.bottomsheet.BottomSheetDialog
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
@@ -38,8 +42,14 @@ class SignUpScreen : Fragment(), View.OnClickListener,View.OnFocusChangeListener
     lateinit var binding : FragmentSignUpScreenBinding
     lateinit var dialog: BottomSheetDialog
     lateinit var bottomSheetBehavior: BottomSheetBehavior<View>
+    public val authRepository by lazy {
+        AuthRepository(HotelDatabase(requireContext()));
+    }
+    public val authViewModelProviderFactory by lazy {
+        AuthViewModelProviderFactory(HotelApplication(),authRepository)
+    }
     private val authViewModel by lazy {
-        ViewModelProvider(requireActivity(),(activity as MainActivity).authViewModelProviderFactory)[AuthViewModel::class.java]
+        ViewModelProvider(this,authViewModelProviderFactory)[AuthViewModel::class.java]
     }
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -57,7 +67,6 @@ class SignUpScreen : Fragment(), View.OnClickListener,View.OnFocusChangeListener
         binding.passEditText.onFocusChangeListener  = this
         binding.confirmPassEditText.onFocusChangeListener = this
         binding.signupBtn.setOnClickListener(this)
-
         addEvent()
     }
 
@@ -255,6 +264,7 @@ class SignUpScreen : Fragment(), View.OnClickListener,View.OnFocusChangeListener
     private fun onSubmit() {
         if(validate()){
             val regisBody = registerBody(binding.nameEditText.text.toString(),binding.emailEditText.text.toString(),"hanoi",binding.phoneEditText.text.toString(),binding.passEditText.text.toString())
+            Toast.makeText(requireContext(),regisBody.toString(),Toast.LENGTH_LONG).show()
             authViewModel.makeRegister(regisBody)
             authViewModel.user.observe(viewLifecycleOwner){
                 when(it){

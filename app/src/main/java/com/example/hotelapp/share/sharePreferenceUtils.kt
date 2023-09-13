@@ -11,6 +11,15 @@ object sharePreferenceUtils {
         val sharedPreferences = context.getSharedPreferences(sharedPreferencesName, Context.MODE_PRIVATE)
         return sharedPreferences.contains(key)
     }
+    fun saveLanguage(lan : String = "eng", context: Context){
+        val preferences =  context.getSharedPreferences("LAN",Context.MODE_PRIVATE)
+        preferences.edit().putString("LAN_VALUE",lan).apply()
+    }
+
+    fun getLanguage(context: Context) : String? {
+        val preferences =  context.getSharedPreferences("LAN",Context.MODE_PRIVATE)
+        return preferences.getString("LAN_VALUE","")
+    }
 
     fun saveToken(token: String, context: Context) {
         val preferences =  context.getSharedPreferences("USER",Context.MODE_PRIVATE)
@@ -40,6 +49,16 @@ object sharePreferenceUtils {
         editor.remove("USER_VALUE")
         editor.remove("TOKEN_VALUE")
         editor.apply()
+    }
+
+    fun saveDarkMode(lan : Boolean = false, context: Context){
+        val preferences =  context.getSharedPreferences("DARK_MODE",Context.MODE_PRIVATE)
+        preferences.edit().putBoolean("DARK",lan).apply()
+    }
+
+    fun getDarkMode(context: Context) : Boolean? {
+        val preferences =  context.getSharedPreferences("DARK_MODE",Context.MODE_PRIVATE)
+        return preferences.getBoolean("DARK",false)
     }
 
 

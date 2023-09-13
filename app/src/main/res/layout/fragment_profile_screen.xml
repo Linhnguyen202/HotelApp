@@ -4,29 +4,40 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    tools:context=".ui.ProfileScreen">
-   <TextView
-       android:id="@+id/profileTitleTxt"
-       android:text="Profile"
-       android:textColor="@color/black"
-       android:textStyle="bold"
-       android:gravity="center_horizontal"
-       android:paddingVertical="10dp"
-       android:textSize="24dp"
-       android:layout_width="match_parent"
-       app:layout_constraintTop_toTopOf="parent"
-       android:layout_height="wrap_content"/>
+    tools:context=".ui.ProfileScreen"
+    style="@style/SCREEN">
+
+    <RelativeLayout
+        android:id="@+id/profleTextContainer"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toTopOf="parent"
+        style="@style/SCREEN">
+        <TextView
+            android:id="@+id/profileTitleTxt"
+            android:text="@string/profile"
+            style="@style/TEXT"
+            android:textStyle="bold"
+            android:gravity="center"
+            android:layout_centerHorizontal="true"
+            android:layout_centerVertical="true"
+            android:paddingVertical="10dp"
+            android:textSize="24dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"/>
+    </RelativeLayout>
+
     <LinearLayout
         android:id="@+id/mainView"
-            app:layout_constraintTop_toBottomOf="@+id/profileTitleTxt"
+            app:layout_constraintTop_toBottomOf="@+id/profleTextContainer"
             android:layout_width="match_parent"
             android:layout_height="0dp"
             android:orientation="vertical"
             app:layout_constraintBottom_toBottomOf="parent"
             android:paddingHorizontal="30dp"
             android:paddingVertical="40dp"
-            android:background="#F5F5F5"
-            android:visibility="gone"
+            style="@style/SCREEN"
+            android:visibility="invisible"
             >
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="match_parent"
@@ -46,7 +57,7 @@
                 <TextView
                     android:id="@+id/profileName"
                     android:text="Nguyen Gia Linh"
-                    android:textColor="@color/black"
+                    style="@style/TEXT"
                     android:textSize="20dp"
                     android:textStyle="bold"
                     android:gravity="center_horizontal"
@@ -58,6 +69,7 @@
 
             </androidx.constraintlayout.widget.ConstraintLayout>
             <LinearLayout
+                android:id="@+id/profileBtn"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="30dp"
@@ -67,15 +79,16 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"/>
                 <TextView
-                    android:textColor="@color/black"
+                    style="@style/TEXT"
                     android:textStyle="bold"
                     android:textSize="16dp"
                     android:layout_marginLeft="20dp"
-                    android:text="My profile"
+                    android:text="@string/my_profile"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"/>
             </LinearLayout>
             <LinearLayout
+                android:id="@+id/settingBtn"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="30dp"
@@ -85,11 +98,11 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"/>
                 <TextView
-                    android:textColor="@color/black"
+                    style="@style/TEXT"
                     android:textStyle="bold"
                     android:textSize="16dp"
                     android:layout_marginLeft="20dp"
-                    android:text="Setting"
+                    android:text="@string/Setting"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"/>
             </LinearLayout>
@@ -104,11 +117,11 @@
                     android:layout_height="match_parent"
                     android:src="@drawable/ic_baseline_settings_24" />
                 <TextView
-                    android:textColor="@color/black"
+                    style="@style/TEXT"
                     android:textStyle="bold"
                     android:textSize="16dp"
                     android:layout_marginLeft="20dp"
-                    android:text="Notification"
+                    android:text="@string/noti_title"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"/>
             </LinearLayout>
@@ -122,11 +135,11 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"/>
                 <TextView
-                    android:textColor="@color/black"
+                    style="@style/TEXT"
                     android:textStyle="bold"
                     android:textSize="16dp"
                     android:layout_marginLeft="20dp"
-                    android:text="Help"
+                    android:text="@string/help"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"/>
             </LinearLayout>
@@ -142,10 +155,10 @@
                 <TextView
                     android:id="@+id/logoutButton"
                     android:textColor="@color/black"
-                    android:textStyle="bold"
+                    style="@style/TEXT"
                     android:textSize="16dp"
                     android:layout_marginLeft="20dp"
-                    android:text="Log out"
+                    android:text="@string/logout"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"/>
             </LinearLayout>
@@ -154,15 +167,17 @@
     <LinearLayout
         android:id="@+id/notSignView"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        app:layout_constraintTop_toBottomOf="@+id/profileTitleTxt"
+        android:layout_height="0dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/profleTextContainer"
         app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
         android:orientation="vertical"
         android:layout_marginTop="20dp"
         android:paddingVertical="20dp"
-        android:paddingHorizontal="30dp">
+        android:paddingHorizontal="30dp"
+        style="@style/SCREEN">
         <TextView
-            android:text="You haven't log in. Please sign in !"
+            android:text="@string/login_warn"
             android:textSize="20sp"
             android:textStyle="bold"
             android:layout_width="match_parent"
@@ -170,7 +185,7 @@
         <Button
             android:id="@+id/signInbutton"
             android:layout_marginTop="10dp"
-            android:text="Sign in"
+            android:text="@string/signIn"
             android:textSize="16sp"
             android:paddingVertical="10dp"
             android:paddingHorizontal="25dp"

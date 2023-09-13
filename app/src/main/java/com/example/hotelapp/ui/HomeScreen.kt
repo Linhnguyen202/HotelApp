@@ -46,8 +46,9 @@ class HomeScreen : Fragment() {
     private val repository by lazy {
         HotelRepository(HotelDatabase(requireContext()));
     }
+
     private val viewModelProviderFactory by lazy {
-        HotelViewModelProviderFactory(HotelApplication(),repository)
+        HotelViewModelProviderFactory(requireActivity().application,repository)
     }
 
     private val hotelViewModel by lazy {
@@ -128,7 +129,7 @@ class HomeScreen : Fragment() {
 
     private fun addData() {
         // add trending hotel
-        hotelViewModel.setDataType("New")
+        hotelViewModel.getTypeHotel("New")
         hotelViewModel.popularHotelList.observe(viewLifecycleOwner){
             when(it){
                 is Resource.Success -> {
@@ -146,20 +147,20 @@ class HomeScreen : Fragment() {
             }
         }
         //get popular hotel
-        hotelViewModel.setDataType("Popular")
+        hotelViewModel.getTypeHotel("Popular")
         hotelViewModel.popularHotelList.observe(viewLifecycleOwner){
             when(it){
                 is Resource.Success -> {
                     it.data?.let { HotelResponse ->
                         adapterPop.differ.submitList(HotelResponse.result.toList())
-                        loadingDialog.endLoading(requireContext())
+
                     }
                 }
                 is Resource.Error -> {
-
+                    Toast.makeText(requireContext(),it.message.toString(),Toast.LENGTH_LONG).show()
                 }
                 is Resource.Loading -> {
-                   loadingDialog.startLoading(requireContext())
+
                 }
             }
         }
@@ -173,8 +174,8 @@ class HomeScreen : Fragment() {
     }
 
     private fun setUpItem() {
-        adapterBig = HotelBigAdapter(onClickItem,onClickFavorButton,onClickRemoveFavorButton)
-        adapterPop = PopularHomeAdapter(onClickItem,onClickFavorButton,onClickRemoveFavorButton)
+        adapterBig = HotelBigAdapter(onClickItem,onClickFavorButton)
+        adapterPop = PopularHomeAdapter(onClickItem,onClickFavorButton)
         adapterCityAdapter = CityAdapter()
         binding.trendingRv.apply {
             adapter = this@HomeScreen.adapterBig
@@ -194,22 +195,60 @@ class HomeScreen : Fragment() {
         findNavController().navigate(R.id.action_homeScreen_to_mainActivity2,bundle)
     }
 
-    private val onClickFavorButton : (Hotel) -> Unit = {
-        val authen = "Bearer ${sharePreferenceUtils.getToken(requireContext())}"
-        val userId = sharePreferenceUtils.getUser(requireContext())._id
-        val hotelId = it._id
-        val favorBody = FavorBody(hotelId,userId)
-        favorViewModel.makeFavor(userId,authen,favorBody)
+    private val onClickFavorButton : (Hotel, Boolean) -> Boolean = { hotel, isCheck ->
+        if(sharePreferenceUtils.isSharedPreferencesExist(requireContext(),"USER","TOKEN_VALUE") && sharePreferenceUtils.isSharedPreferencesExist(requireContext(),"USER","USER_VALUE")){
+            val authen = "Bearer ${sharePreferenceUtils.getToken(requireContext())}"
+            val userId = sharePreferenceUtils.getUser(requireContext())._id
+            val hotelId = hotel._id
+            val favorBody = FavorBody(hotelId,userId)
+            if(!isCheck){
+                favorViewModel.deleteFavor(userId,hotelId,authen)
+                favorViewModel.statusFavorResponse.observe(viewLifecycleOwner){
+                    when(it){
+                        is Resource.Success -> {
+                            it.data?.let { DeleteFavorResponse->
+                                Toast.makeText(requireContext(),DeleteFavorResponse.toString(),Toast.LENGTH_LONG).show()
+                            }
+                        }
+                        is Resource.Error -> {
+
+                        }
+                        is Resource.Loading -> {
+                            Toast.makeText(requireContext(),"Loading data",Toast.LENGTH_LONG).show()
+                        }
+                    }
+                }
+                false
+            }
+            else{
+                favorViewModel.makeFavor(userId,authen,favorBody)
+                favorViewModel.postFavorResponse.observe(viewLifecycleOwner){
+                    when(it){
+                        is Resource.Success -> {
+                            it.data?.let { PostFavorResponse->
+                                Toast.makeText(requireContext(),"Successful",Toast.LENGTH_LONG).show()
+                            }
+                        }
+                        is Resource.Error -> {
+
+                        }
+                        is Resource.Loading -> {
+                            Toast.makeText(requireContext(),"Loading data",Toast.LENGTH_LONG).show()
+                        }
+                    }
+                }
+                true
+            }
+
+        }
+        else{
+            Toast.makeText(requireContext(),"Please log in ",Toast.LENGTH_LONG).show()
+            false
+        }
+
     }
 
-    private val onClickRemoveFavorButton : (Hotel) -> Unit = {
-        val authen = "Bearer ${sharePreferenceUtils.getToken(requireContext())}"
-        val userId = sharePreferenceUtils.getUser(requireContext())._id
-        val hotelId = it._id
-        val favorBody = FavorBody(hotelId,userId)
-        favorViewModel.deleteFavor(userId,hotelId,authen)
 
-    }
 
 
 }

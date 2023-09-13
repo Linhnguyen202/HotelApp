@@ -3,7 +3,7 @@
     android:layout_width="match_parent"
     android:layout_height="?actionBarSize"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:background="@color/white">
+    style="@style/SCREEN_2">
     <ImageView
         android:id="@+id/backButton"
         app:layout_constraintStart_toStartOf="parent"
@@ -17,11 +17,11 @@
         android:id="@+id/titleToolbar"
         android:text="Luxvoy Luxury Ha Noi Hotel"
         android:textStyle="bold"
-        android:textColor="@color/black"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintBottom_toBottomOf="parent"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"/>
+        android:layout_height="wrap_content"
+        style="@style/TEXT"/>
 </androidx.constraintlayout.widget.ConstraintLayout>

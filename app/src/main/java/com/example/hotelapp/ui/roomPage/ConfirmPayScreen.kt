@@ -71,13 +71,12 @@ class ConfirmPayScreen : Fragment() {
     private fun addData() {
         val search = (activity as MainActivity2).args.search
         val argRoom = args.room
-        Log.d("search",search.adults.toString())
         val dateArray = search.time!!.split("-")
         val user = sharePreferenceUtils.getUser(requireContext())
         val userName = user.username
         val price = argRoom.price
         val totalPrice = (search.room!!.toInt() * price) + 20 + 40
-        val status = "Current"
+        val status = getString(R.string.current)
         val descripion = ""
         val numberRoom = search.room.toString().toInt()
         val guestNumber = search.adults.toString().toInt()
@@ -88,7 +87,7 @@ class ConfirmPayScreen : Fragment() {
         bookingBody = bookingBody(userName!!,totalPrice,price,status,descripion,numberRoom,guestNumber,paymentType,dateArray[0].toString(),dateArray[1].toString(),userId,hotelId,roomId)
 
         binding.roomTitle.text = argRoom.name
-        binding.roomTxt.text = search.room + " room, " + search.adults.toString() + " guest"
+        binding.roomTxt.text = search.room + getString(R.string.room).lowercase() + search.adults.toString() + " " + getString(R.string.guest).lowercase()
         val dateFormat = SimpleDateFormat("dd/MM/yyyy")
         val bookingStartDate  = dateFormat.parse(dateArray[0].toString())
         val bookingEndDate  = dateFormat.parse(dateArray[1].toString())
@@ -103,7 +102,7 @@ class ConfirmPayScreen : Fragment() {
             bookingEndDate.date
         )
         val distance = ChronoUnit.DAYS.between(startDate, endDate)
-        binding.timeInfoTxt.text = "${dateArray[0].toString()}-${dateArray[1].toString()} (${distance.toString()} days)"
+        binding.timeInfoTxt.text = "${dateArray[0].toString()}-${dateArray[1].toString()} (${distance.toString()} " + getString(R.string.days)+")"
 
         binding.priceTxt.text = price.toString()
         binding.totalTxt.text = totalPrice.toString()
@@ -111,7 +110,7 @@ class ConfirmPayScreen : Fragment() {
     }
     private fun onSubmit(){
         if(bookingBody!!.paymentType.isEmpty()){
-            Toast.makeText(requireContext(),"Please choose your payment type",Toast.LENGTH_LONG).show()
+            Toast.makeText(requireContext(),getString(R.string.choose_payment_title),Toast.LENGTH_LONG).show()
         }
         else{
             var header : String = "Bearer "
@@ -128,14 +127,14 @@ class ConfirmPayScreen : Fragment() {
                             )
 
                          findNavController().navigate(R.id.action_confirmPayScreen_to_successOrderScreen2,bundle)
-                            loadingDialog.endLoading(requireContext())
+//                            loadingDialog.endLoading(requireContext())
                         }
                     }
                     is Resource.Error -> {
 
                     }
                     is Resource.Loading -> {
-                        loadingDialog.startLoading(requireContext())
+//                        loadingDialog.startLoading(requireContext())
                     }
                 }
             }

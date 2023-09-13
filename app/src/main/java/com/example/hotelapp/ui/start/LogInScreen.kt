@@ -1,10 +1,13 @@
 package com.example.hotelapp.ui.start
 
+import android.app.AlertDialog
 import android.app.Dialog
+import android.content.DialogInterface
 import android.graphics.Color
 import android.graphics.Paint
 import android.graphics.drawable.ColorDrawable
 import android.os.Bundle
+import android.util.Log
 import android.util.Patterns
 import android.view.KeyEvent
 import android.view.LayoutInflater
@@ -41,6 +44,9 @@ class LogInScreen : Fragment(), View.OnClickListener,View.OnFocusChangeListener,
     private val authViewModel by lazy {
         ViewModelProvider(this,authViewModelProviderFactory)[AuthViewModel::class.java]
     }
+    val loadingDialog by lazy {
+        com.example.hotelapp.utils.loadingDialog(requireContext())
+    }
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?,
@@ -70,6 +76,7 @@ class LogInScreen : Fragment(), View.OnClickListener,View.OnFocusChangeListener,
         binding.signUpTxt.setOnClickListener{
             findNavController().navigate(R.id.action_logInScreen_to_signUpScreen)
         }
+
     }
 
 
@@ -154,50 +161,53 @@ class LogInScreen : Fragment(), View.OnClickListener,View.OnFocusChangeListener,
         return false
     }
     private fun onSubmit(){
+//        showDialog()
         if(validate()){
             val signInBody = SignInBody(binding.emailEditText.text.toString(),binding.passEditText.text.toString())
-            authViewModel.makeLogin(signInBody)
-            authViewModel.user.observe(viewLifecycleOwner){
+//            authViewModel.makeLogin(signInBody)
+            authViewModel.loginUser(signInBody).observe(viewLifecycleOwner){
+                Log.d("123","2313123")
                 when(it){
                     is Resource.Success -> {
-                        it.data.let { UserResponse->
-                            val loginUser = User(UserResponse?.user!!.__v,UserResponse?.user!!._id,UserResponse?.user!!.address,UserResponse?.user!!.email,UserResponse?.user!!.password,UserResponse?.user!!.phoneNumber,UserResponse?.user!!.username)
-                            sharePreferenceUtils.saveToken(UserResponse?.token.toString(),requireContext())
-                            sharePreferenceUtils.saveUser(loginUser,requireContext())
-                            loadingDialog.endLoading(requireContext())
-                            findNavController().navigate(R.id.action_logInScreen_to_mainActivity)
-
+                        binding.pgBar.visibility = View.GONE
+                        if(it.message.equals(null) && it.data!!.code() == 401){
+                            showDialog()
                         }
+                        else{
+                            it.data.let { response ->
+                                val UserResponse = response?.body()
+                                val loginUser = User(UserResponse?.user!!.__v,UserResponse?.user!!._id,UserResponse?.user!!.address,UserResponse?.user!!.email,UserResponse?.user!!.password,UserResponse?.user!!.phoneNumber,UserResponse?.user!!.username)
+                                sharePreferenceUtils.saveToken(UserResponse?.token.toString(),requireContext())
+                                sharePreferenceUtils.saveUser(loginUser,requireContext())
+                                findNavController().navigate(R.id.action_logInScreen_to_mainActivity)
+
+                            }
+                        }
+
+
                     }
                     is Resource.Error -> {
-                        when(it.message){
-                            "401" -> {
-                                loadingDialog.endLoading(requireContext())
-                                val dialog = layoutInflater.inflate(R.layout.custom_dialog,null)
-                                val myDialog = Dialog(requireContext())
-                                myDialog.setContentView(dialog)
-                                myDialog.setCancelable(true)
-                                myDialog.window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
-                                myDialog.show()
-                                val subBtn = dialog.findViewById<Button>(R.id.submitButton)
-                                subBtn.setOnClickListener {
-                                    myDialog.dismiss()
-                                }
-                            }
-                            "404" -> {
-                                loadingDialog.endLoading(requireContext())
-                                Toast.makeText(requireContext(),"error",Toast.LENGTH_LONG).show()
-                            }
-
-                        }
+                        binding.pgBar.visibility = View.GONE
+                        Toast.makeText(requireContext(),"error",Toast.LENGTH_SHORT).show()
                     }
                     is Resource.Loading -> {
-                        loadingDialog.startLoading(requireContext())
+                        binding.pgBar.visibility = View.VISIBLE
                     }
-
                 }
             }
         }
+    }
+    private fun showDialog() {
+        val dialog = layoutInflater.inflate(R.layout.custom_dialog,null)
+        val myDialog = Dialog(requireActivity())
+        myDialog.setContentView(dialog)
+        myDialog.setCancelable(true)
+        myDialog.window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
+        val subBtn = dialog.findViewById<Button>(R.id.submitButton)
+        subBtn.setOnClickListener {
+            myDialog.dismiss()
+        }
+        myDialog.show()
     }
     private fun validate() : Boolean{
         var isValid = true;

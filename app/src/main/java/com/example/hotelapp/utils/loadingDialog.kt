@@ -8,15 +8,15 @@ import android.view.LayoutInflater
 import androidx.compose.ui.graphics.Color
 import com.example.hotelapp.R
 
-object loadingDialog {
+class loadingDialog(var context: Context) {
     lateinit var dialog: Dialog
-    public fun startLoading(context: Context){
+    public fun startLoading(){
         dialog = Dialog(context)
         dialog.setContentView(R.layout.loading_item)
         dialog.window!!.setBackgroundDrawable(ColorDrawable(android.graphics.Color.TRANSPARENT))
         dialog.show()
     }
-    public fun endLoading(context: Context){
+    public fun endLoading(){
         dialog.dismiss()
     }
 }

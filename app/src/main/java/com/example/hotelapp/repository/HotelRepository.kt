@@ -12,7 +12,7 @@ class HotelRepository(val db : HotelDatabase) {
 
     suspend fun getRoomWithHotelId(hotelId: String) = RetrofitInstance.api.getRoomWithHotelId(hotelId)
 
-    suspend fun searchHotel(cityQuery: String, guestNumber: Int) = RetrofitInstance.api.searchHotel(cityQuery,guestNumber)
+    suspend fun searchHotel(cityQuery: String, guestNumber: Int, pageNumber: Int, limitNumber: Int) = RetrofitInstance.api.searchHotel(cityQuery,guestNumber,pageNumber, limitNumber)
 
     suspend fun userBooking(userId: String,header: String,bookingBody: bookingBody) = RetrofitInstance.api.makeBooking(userId,header,bookingBody)
 

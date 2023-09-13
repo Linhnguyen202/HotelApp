@@ -51,7 +51,7 @@
         android:paddingVertical="20dp"
         android:paddingHorizontal="30dp">
         <TextView
-            android:text="You haven't log in. Please sign in !"
+            android:text="@string/login_warn"
             android:textSize="20sp"
             android:textStyle="bold"
             android:layout_width="match_parent"
@@ -59,7 +59,7 @@
         <Button
             android:id="@+id/signInbutton"
             android:layout_marginTop="10dp"
-            android:text="Sign in"
+            android:text="@string/signIn"
             android:textSize="16sp"
             android:paddingVertical="10dp"
             android:paddingHorizontal="25dp"

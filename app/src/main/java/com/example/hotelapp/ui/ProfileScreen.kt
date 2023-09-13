@@ -50,6 +50,12 @@ class ProfileScreen : Fragment() {
         binding.signInbutton.setOnClickListener {
             findNavController().navigate(R.id.action_profileScreen_to_mainActivity3)
         }
+        binding.profileBtn.setOnClickListener{
+            findNavController().navigate(R.id.action_profileScreen_to_editUserScreen)
+        }
+        binding.settingBtn.setOnClickListener{
+            findNavController().navigate(R.id.action_profileScreen_to_listSettingScreen)
+        }
     }
 
 }

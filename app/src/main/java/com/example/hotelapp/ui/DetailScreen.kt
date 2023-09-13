@@ -77,7 +77,7 @@ class DetailScreen : Fragment(){
         binding.checkRoomBtn.setOnClickListener {
             if(sharePreferenceUtils.isSharedPreferencesExist(requireContext(),"USER","TOKEN_VALUE") && sharePreferenceUtils.isSharedPreferencesExist(requireContext(),"USER","USER_VALUE")){
                 val search = (activity as MainActivity2).args.search
-                if(search.place!!.isEmpty() || search.room!!.isEmpty() || search.adults!!.isEmpty()){
+                if(search.place.isNullOrEmpty() || search.room.isNullOrEmpty()|| search.adults.isNullOrEmpty()){
                     handelBottomSheetDialog(bundle)
                 }
                 else{

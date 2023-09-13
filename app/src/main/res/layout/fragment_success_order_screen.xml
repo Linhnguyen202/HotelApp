@@ -31,7 +31,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="12dp"
                 android:gravity="center_horizontal"
-                android:text="Congratulations!"
+                android:text="@string/congrat_title"
                 android:textColor="@color/black"
                 android:textSize="18sp"
                 android:textStyle="bold" />
@@ -84,7 +84,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="12dp"
-                android:text="Confirm Number"
+                android:text="@string/confirm_number"
                 android:textColor="#777E90"
                 android:textSize="16dp"
                 android:textStyle="bold" />
@@ -171,7 +171,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="12dp"
-                android:text="Additional charges"
+                android:text="@string/addition_charge"
                 android:textColor="#777E90"
                 android:textSize="16dp"
                 android:textStyle="bold" />

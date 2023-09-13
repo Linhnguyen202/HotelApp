@@ -5,6 +5,7 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.hotelapp.model.*
+import com.example.hotelapp.repository.AuthRepository
 import com.example.hotelapp.repository.HotelRepository
 import com.example.hotelapp.utils.Resource
 import kotlinx.coroutines.launch
@@ -14,6 +15,7 @@ class UserViewModel(val app: Application, val hotelRepository: HotelRepository):
     val userBooking : MutableLiveData<Resource<BookingResponse>> = MutableLiveData()
     val userBookingList : MutableLiveData<Resource<UserBookingResponse>> = MutableLiveData()
     val cancelUserBookng : MutableLiveData<Resource<BookingResponse>> = MutableLiveData()
+
     public fun getUserBookingList(userId: String, header: String) = viewModelScope.launch {
         userBookingList.postValue(Resource.Loading())
         val response = hotelRepository.getUserBooking(userId, header)
