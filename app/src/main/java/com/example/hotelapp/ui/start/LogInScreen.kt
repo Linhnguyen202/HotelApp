@@ -1,5 +1,6 @@
 package com.example.hotelapp.ui.start
 
+import android.annotation.SuppressLint
 import android.app.AlertDialog
 import android.app.Dialog
 import android.content.DialogInterface
@@ -79,44 +80,56 @@ class LogInScreen : Fragment(), View.OnClickListener,View.OnFocusChangeListener,
 
     }
 
-
+    var EMAIL_ERROR : String? = null
+    var PASS_ERROR : String? = null
     private fun  validateEmail() : Boolean{
-        var emailError: String? = null
         val email = binding.emailEditText.text.toString()
         if(email.isEmpty()){
-            emailError = "Email is required"
+            EMAIL_ERROR = "Tài khoản không được để trống"
         }
         else if(!Patterns.EMAIL_ADDRESS.matcher(email).matches()){
-            emailError = "Email address is invalid"
+            EMAIL_ERROR = "Tài khoản email không hợp lệ"
         }
-        if(emailError != null){
-            Toast.makeText(requireContext(),emailError,Toast.LENGTH_SHORT).show()
+        else{
+            EMAIL_ERROR = null
+        }
+        if(EMAIL_ERROR != null){
             binding.emailContainer.apply {
                 isErrorEnabled = true;
-                error = emailError
+                error = EMAIL_ERROR
             }
         }
-
-        return emailError == null
+        else {
+            binding.emailContainer.apply {
+                isErrorEnabled = false;
+            }
+        }
+        return EMAIL_ERROR == null
     }
     private fun validatePassword() : Boolean{
-        var passError: String? = null
         val password = binding.passEditText.text.toString()
         if(password.isEmpty()){
-            passError = "Email is required"
+            PASS_ERROR = "Mật khẩu không được để trống"
         }
         else if(password.length <= 6){
-            passError = "Password must be 6 characters long"
+            PASS_ERROR = "Mật khẩu ít nhất phải có 6 kí tự"
         }
-
-        if(passError != null){
+        else {
+            PASS_ERROR = null
+        }
+        if(PASS_ERROR != null){
             binding.passContainer.apply {
                 isErrorEnabled = true;
-                error = passError
+                error = PASS_ERROR
+            }
+        }
+        else {
+            binding.passContainer.apply {
+                isErrorEnabled = false;
             }
         }
 
-        return passError == null
+        return PASS_ERROR == null
     }
 
 
@@ -161,30 +174,28 @@ class LogInScreen : Fragment(), View.OnClickListener,View.OnFocusChangeListener,
         return false
     }
     private fun onSubmit(){
-//        showDialog()
-        if(validate()){
+        if(validateEmail() && validatePassword()){
             val signInBody = SignInBody(binding.emailEditText.text.toString(),binding.passEditText.text.toString())
-//            authViewModel.makeLogin(signInBody)
             authViewModel.loginUser(signInBody).observe(viewLifecycleOwner){
-                Log.d("123","2313123")
                 when(it){
                     is Resource.Success -> {
                         binding.pgBar.visibility = View.GONE
                         if(it.message.equals(null) && it.data!!.code() == 401){
-                            showDialog()
+                            showDialog("Mật khẩu không đúng")
+                        }
+                        else if(it.message.equals(null) && it.data!!.code() == 402){
+                            showDialog("Nguời dùng không tồn tài")
                         }
                         else{
                             it.data.let { response ->
                                 val UserResponse = response?.body()
-                                val loginUser = User(UserResponse?.user!!.__v,UserResponse?.user!!._id,UserResponse?.user!!.address,UserResponse?.user!!.email,UserResponse?.user!!.password,UserResponse?.user!!.phoneNumber,UserResponse?.user!!.username)
+                                val loginUser = User(UserResponse?.user!!.__v,UserResponse?.user!!._id,UserResponse?.user!!.address,UserResponse?.user.identification,UserResponse?.user!!.email,UserResponse?.user!!.password,UserResponse?.user!!.phoneNumber,UserResponse?.user!!.username)
                                 sharePreferenceUtils.saveToken(UserResponse?.token.toString(),requireContext())
                                 sharePreferenceUtils.saveUser(loginUser,requireContext())
                                 findNavController().navigate(R.id.action_logInScreen_to_mainActivity)
 
                             }
                         }
-
-
                     }
                     is Resource.Error -> {
                         binding.pgBar.visibility = View.GONE
@@ -197,13 +208,22 @@ class LogInScreen : Fragment(), View.OnClickListener,View.OnFocusChangeListener,
             }
         }
     }
-    private fun showDialog() {
+
+    private fun checkEmailExits(): Boolean {
+        return false
+    }
+
+    @SuppressLint("MissingInflatedId")
+    private fun showDialog(error : String) {
         val dialog = layoutInflater.inflate(R.layout.custom_dialog,null)
-        val myDialog = Dialog(requireActivity())
+        val myDialog = Dialog(requireContext())
         myDialog.setContentView(dialog)
         myDialog.setCancelable(true)
         myDialog.window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
+        val errorText = dialog.findViewById<TextView>(R.id.errorText)
         val subBtn = dialog.findViewById<Button>(R.id.submitButton)
+
+        errorText.text = error
         subBtn.setOnClickListener {
             myDialog.dismiss()
         }

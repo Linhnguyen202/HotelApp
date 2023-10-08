@@ -1,5 +1,8 @@
 package com.example.hotelapp.ui
 
+import android.app.Dialog
+import android.graphics.Color
+import android.graphics.drawable.ColorDrawable
 import android.os.Build
 import android.os.Bundle
 import android.text.TextWatcher
@@ -7,6 +10,9 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Button
+import android.widget.EditText
+import android.widget.TextView
 import android.widget.Toast
 import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AppCompatActivity
@@ -90,9 +96,45 @@ class DetailBookingScreen : Fragment() {
         val formattedDate = instant.atZone(zoneId).toLocalDate().format(DateTimeFormatter.ofPattern("dd/MM/yyyy"))
         val distanceBooking = handleDistance(formattedDate,dateString)
         binding.timeInfoTxt.text = "${args.booking.startDate} - ${args.booking.startDate} (${distance.toString()})}"
+
         checkMyBookingTimeCancel(distanceBooking)
+
+
         binding.btnCancel.setOnClickListener{
-            submitCancel()
+            val dialog = layoutInflater.inflate(R.layout.custom_layout_feedback,null)
+            val myDialog = Dialog(requireContext())
+            myDialog.setContentView(dialog)
+            myDialog.setCancelable(true)
+            myDialog.window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
+            myDialog.show()
+
+            val submitCancel = dialog.findViewById<Button>(R.id.submit_dialog)
+            val cancel = dialog.findViewById<Button>(R.id.cancel_dialog)
+            val feedbackCancel = dialog.findViewById<EditText>(R.id.feedbackCancel)
+            val errorFeed = dialog.findViewById<TextView>(R.id.error_feed)
+            submitCancel.setOnClickListener {
+                if(distanceBooking > 3){
+                    Toast.makeText(requireContext(),"Đã quá hạn hủy ko thể hủy đơn",Toast.LENGTH_LONG).show()
+                }
+                else{
+                    if(feedbackCancel.text.isEmpty()){
+                        errorFeed.text = "Hãy điền lí do hủy đơn hàng"
+                        errorFeed.visibility = View.VISIBLE
+                    }
+                    else{
+                        errorFeed.visibility = View.GONE
+                        myDialog.dismiss()
+                        submitCancel()
+
+                    }
+                }
+
+
+            }
+            cancel.setOnClickListener {
+                myDialog.dismiss()
+            }
+
         }
     }
     private fun checkMyBookingTimeCancel(distanceBooking: Int){

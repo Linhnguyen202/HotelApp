@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".ui.DetailBookingScreen"
-    android:background="#FED1A7">
+   style="@style/SCREEN">
     <com.google.android.material.appbar.AppBarLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -45,14 +45,14 @@
         app:layout_anchorGravity="center"
         android:paddingHorizontal="20dp"
         android:paddingTop="14dp"
-        android:background="#F5F5F5"
+        style="@style/SCREEN"
         app:layout_behavior="@string/appbar_scrolling_view_behavior">
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="0dp"
             android:orientation="vertical"
-            android:background="#F5F5F5">
+            style="@style/SCREEN">
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content">
@@ -61,7 +61,7 @@
                     android:text="Sin Suoi Ho Bungalow and Homestay"
                     android:textStyle="bold"
                     android:textSize="20sp"
-                    android:textColor="@color/black"
+                    style="@style/TEXT"
                     app:layout_constraintTop_toTopOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     android:gravity="start"
@@ -74,7 +74,7 @@
                     android:textSize="16sp"
                     app:layout_constraintStart_toEndOf="@+id/starImgCard"
                     app:layout_constraintTop_toBottomOf="@+id/detailHotelName"
-                    android:textColor="@color/black"
+                    style="@style/TEXT"
                     android:textStyle="bold"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -98,15 +98,15 @@
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/rateNumCardTxt"
                     android:textSize="16sp"
+                    style="@style/TEXT_2"
                     />
             </androidx.constraintlayout.widget.ConstraintLayout>
 
-            <TextView
-                android:layout_marginTop="20dp"
-                android:layout_marginBottom="20dp"
+            <View
                 android:layout_width="match_parent"
-                android:layout_height="2dp"
-                android:background="#E6E8EC"/>
+                android:layout_height="1dp"
+                android:background="#727272"
+                android:layout_marginVertical="20dp"/>
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -115,7 +115,7 @@
                     android:text="Stay information"
                     android:textSize="20sp"
                     android:textStyle="bold"
-                    android:textColor="@color/black"
+                    style="@style/TEXT"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginBottom="12dp"/>
@@ -127,7 +127,8 @@
                         android:text="Sep 11-14 (3 Nights)"
                         android:textSize="16sp"
                         android:layout_width="match_parent"
-                        android:layout_height="wrap_content"/>
+                        android:layout_height="wrap_content"
+                        style="@style/TEXT_2"/>
                 </RelativeLayout>
 
                 <RelativeLayout
@@ -141,6 +142,7 @@
                         android:textSize="16sp"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
+                        style="@style/TEXT_2"
                         />
                 </RelativeLayout>
                 <RelativeLayout
@@ -152,6 +154,7 @@
                         android:textSize="16sp"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
+                        style="@style/TEXT_2"
                         />
                 </RelativeLayout>
 
@@ -167,7 +170,7 @@
                 android:layout_marginBottom="20dp">
                 <TextView
                     android:text="Total stay"
-                    android:textColor="@color/black"
+                    style="@style/TEXT"
                     android:textStyle="bold"
                     android:textSize="16sp"
                     android:layout_width="wrap_content"
@@ -183,18 +186,21 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_alignParentEnd="true"
+                    style="@style/TEXT"
                     />
             </RelativeLayout>
-            <TextView
+
+            <View
                 android:layout_width="match_parent"
-                android:layout_height="2dp"
-                android:background="#E6E8EC"/>
+                android:layout_height="1dp"
+                android:background="#727272"
+                android:layout_marginVertical="20dp"/>
             <TextView
                 android:id="@+id/previewTitle"
                 android:text="Where you'll sleep"
                 android:textSize="20sp"
                 android:textStyle="bold"
-                android:textColor="@color/black"
+                style="@style/TEXT"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="16dp"/>
@@ -205,20 +211,21 @@
                 android:layout_marginTop="10dp"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"/>
-            <TextView
-                android:layout_marginTop="20dp"
+
+            <View
                 android:layout_width="match_parent"
-                android:layout_height="2dp"
-                android:background="#E6E8EC"/>
+                android:layout_height="1dp"
+                android:background="#727272"
+                android:layout_marginVertical="20dp"/>
             <TextView
                 android:id="@+id/offerTitle"
                 android:text="What this place offers"
                 android:textSize="20sp"
                 android:textStyle="bold"
-                android:textColor="@color/black"
+                style="@style/TEXT"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="16dp"/>
+                />
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/offerTypeRv"
                 app:spanCount="2"
@@ -252,6 +259,7 @@
                 android:paddingTop="10dp"
                 app:layout_constraintTop_toBottomOf="@+id/rateNumCardTxt"
                 android:textSize="16sp"
+                style="@style/TEXT_2"
                 />
         </LinearLayout>
     </androidx.core.widget.NestedScrollView>

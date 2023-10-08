@@ -4,7 +4,7 @@
     android:layout_height="wrap_content"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/normalLayout"
-    style="@style/SCREEN_2"
+    style="@style/SCREEN"
     >
     <androidx.cardview.widget.CardView
         app:layout_constraintStart_toStartOf="parent"
@@ -44,7 +44,7 @@
                 app:layout_constraintStart_toEndOf="@+id/imageWrap"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
-                android:background="@color/white"
+                style="@style/SCREEN_2"
                 android:padding="10dp">
                 <TextView
                     android:id="@+id/titleHotelNor"
@@ -93,7 +93,8 @@
                     android:layout_marginTop="10dp"/>
                 <RatingBar
                     android:isIndicator="false"
-                    style="?android:attr/ratingBarStyleSmall"
+                    style="@style/RATINGBAR"
+
                     android:id="@+id/ratingBarNor"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -101,15 +102,13 @@
                     android:numStars="5"
                     android:rating="5"
                     android:clickable="false"
-                    android:backgroundTint="@color/white"
-                    android:background="@color/white"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/locationTitleNor"
                     android:layout_marginTop="5dp"/>
                 <TextView
                     android:id="@+id/textValueNor"
                     android:text="5.0"
-                    android:textColor="@color/black"
+                    style="@style/TEXT"
                     android:textStyle="bold"
                     android:textSize="16sp"
                     app:layout_constraintStart_toEndOf="@+id/ratingBarNor"

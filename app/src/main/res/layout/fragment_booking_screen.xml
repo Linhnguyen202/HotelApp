@@ -5,14 +5,14 @@
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     tools:context=".ui.BookingScreen"
-    android:background="#F5F5F5"
-    android:paddingTop="40dp">
+    android:paddingTop="40dp"
+    style="@style/SCREEN">
     <TextView
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         android:id="@+id/titlePage"
         android:text="Trips"
-        android:textColor="@color/black"
+        style="@style/TEXT"
         android:textSize="40sp"
         android:textStyle="bold"
         android:layout_width="wrap_content"
@@ -26,18 +26,20 @@
         app:layout_constraintTop_toBottomOf="@+id/titlePage"
         app:layout_constraintBottom_toBottomOf="parent"
         android:orientation="vertical"
+        style="@style/SCREEN"
         android:visibility="visible">
         <com.google.android.material.tabs.TabLayout
             android:id="@+id/tabTrip"
             app:layout_constraintTop_toBottomOf="@+id/titlePage"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="#F5F5F5"/>
+            style="@style/SCREEN"/>
         <androidx.viewpager2.widget.ViewPager2
             android:id="@+id/viewPageBooking"
             app:layout_constraintTop_toBottomOf="@+id/tabTrip"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            style="@style/SCREEN"
             />
     </LinearLayout>
     <LinearLayout
@@ -51,6 +53,7 @@
         android:paddingVertical="20dp"
         android:paddingHorizontal="30dp">
         <TextView
+            style="@style/TEXT"
             android:text="@string/login_warn"
             android:textSize="20sp"
             android:textStyle="bold"

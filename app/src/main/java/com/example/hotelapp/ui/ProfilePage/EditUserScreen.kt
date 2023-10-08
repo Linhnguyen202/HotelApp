@@ -5,6 +5,7 @@ import android.content.Context
 import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
 import android.os.Bundle
+import android.util.Log
 import android.util.Patterns
 import android.view.KeyEvent
 import androidx.fragment.app.Fragment
@@ -23,6 +24,9 @@ import com.example.hotelapp.model.registerBody
 import com.example.hotelapp.share.sharePreferenceUtils
 import com.example.hotelapp.utils.Resource
 import com.example.hotelapp.viewModel.AuthViewModel.AuthViewModel
+import okhttp3.internal.notify
+import java.util.regex.Matcher
+import java.util.regex.Pattern
 
 
 class EditUserScreen : Fragment(), View.OnClickListener,View.OnFocusChangeListener, View.OnKeyListener {
@@ -47,6 +51,7 @@ class EditUserScreen : Fragment(), View.OnClickListener,View.OnFocusChangeListen
         binding.nameEditText.onFocusChangeListener = this
         binding.phoneEditText.onFocusChangeListener  = this
         binding.emailEditText.onFocusChangeListener = this
+        binding.idUserContainerEditText.onFocusChangeListener = this
         binding.submitProfileBtn.setOnClickListener(this)
         setData()
         addEvent()
@@ -63,8 +68,49 @@ class EditUserScreen : Fragment(), View.OnClickListener,View.OnFocusChangeListen
         binding.emailEditText.setText(user.email.toString())
         binding.phoneEditText.setText(user.phoneNumber.toString())
         binding.nameEditText.setText(user.username.toString())
+        binding.idUserContainerEditText.setText(user.identification.toString())
         binding.headerToolbar.titleToolbar.setText("My Profle")
+
     }
+    private fun checkStringSpecialChar(value : String) : Boolean{
+        val special = Pattern.compile("[a-zA-z]", Pattern.CASE_INSENSITIVE)
+        val number = Pattern.compile("[!@#$%&*()_+=|<>?{}\\[\\]~-]", Pattern.CASE_INSENSITIVE)
+        val matcher: Matcher = special.matcher(value)
+        val matcherNumber: Matcher = number.matcher(value)
+        val constainsSymbols: Boolean = matcher.find()
+        val containsNumber: Boolean = matcherNumber.find()
+        if(constainsSymbols || containsNumber){
+            return true
+        }
+        return false
+    }
+    var NAME_ERROR : String? = null
+    var PHONE_ERROR : String? = null
+    var USERID_ERROR : String? = null
+    var EMAIL_ERROR : String? = null
+    var PASS_ERROR : String? = null
+    var CONFIRMPASS_ERROR : String? = null
+
+    private fun  validateUserId() : Boolean{
+        var nameError: String? = null
+        val IdUSer = binding.idUserContainerEditText.text.toString()
+        if(IdUSer.isEmpty()){
+            nameError = "CMND không được để trống"
+        }
+
+        else if(checkStringSpecialChar(IdUSer)){
+            nameError = "CMND không hợp lệ"
+        }
+        if(nameError != null){
+            binding.idUserContainer.apply {
+                isErrorEnabled = true;
+                error = nameError
+            }
+        }
+
+        return nameError == null
+    }
+
 
     private fun  validateFullname() : Boolean{
         var nameError: String? = null
@@ -116,6 +162,8 @@ class EditUserScreen : Fragment(), View.OnClickListener,View.OnFocusChangeListen
         return emailError == null
     }
 
+
+
     override fun onClick(view: View?) {
         if(view != null && view.id == R.id.submitProfileBtn){
             onSubmit()
@@ -155,32 +203,51 @@ class EditUserScreen : Fragment(), View.OnClickListener,View.OnFocusChangeListen
                         validateEmail()
                     }
                 }
+                R.id.idUserContainerEditText -> {
+                    if(hasFocus){
+                        if(binding.idUserContainer.isErrorEnabled){
+                            binding.idUserContainer.isErrorEnabled = false
+                        }
+                    }
+                    else{
+                        validateUserId()
+                    }
+                }
+
             }
         }
     }
 
     override fun onKey(v: View?, keyCode: Int, event: KeyEvent?): Boolean {
-//        if(KeyEvent.KEYCODE_ENTER == keyCode && event!!.action == KeyEvent.ACTION_UP){
-//            onSubmit()
-//        }
+        if(KeyEvent.KEYCODE_ENTER == keyCode && event!!.action == KeyEvent.ACTION_UP){
+            onSubmit()
+        }
         return false
     }
 
     private fun onSubmit() {
-        if(validate()){
-            val newUser = User(user.__v, user._id, user.address, binding.emailEditText.text.toString(),user.password,binding.phoneEditText.text.toString(),binding.nameEditText.text.toString())
+        if(validateFullname() && validateNumber() && validateUserId() && validateEmail()){
+            val newUser = User(user.__v, user._id, user.address,binding.idUserContainerEditText.text.toString(), binding.emailEditText.text.toString(),user.password,binding.phoneEditText.text.toString(),binding.nameEditText.text.toString())
             authViewModel.updateUserProfile(newUser,sharePreferenceUtils.getUser(requireContext())._id)
             authViewModel.userUdapteProfile.observe(viewLifecycleOwner){
                 when(it){
                     is Resource.Success -> {
                         it.data.let { UserResponse->
-                            val loginUser = User(UserResponse?.user!!.__v,UserResponse?.user!!._id,UserResponse?.user!!.address,UserResponse?.user!!.email,UserResponse?.user!!.password,UserResponse?.user!!.phoneNumber,UserResponse?.user!!.username)
+                            Log.d("newUser",UserResponse!!.user.toString())
+                            val loginUser = User(UserResponse?.user!!.__v,UserResponse?.user!!._id,UserResponse?.user!!.address,UserResponse?.user!!.identification,UserResponse?.user!!.email,UserResponse?.user!!.password,UserResponse?.user!!.phoneNumber,UserResponse?.user!!.username)
                             sharePreferenceUtils.saveUser(loginUser,requireContext())
                             findNavController().popBackStack()
                         }
                     }
                     is Resource.Error -> {
-
+                        when(it.message){
+                            "404" -> {
+                                Toast.makeText(requireContext(),"Chỉnh sửa thất bại",Toast.LENGTH_LONG).show()
+                            }
+                            else -> {
+                                Toast.makeText(requireContext(),"Tài khoản email đã tồn tại",Toast.LENGTH_LONG).show()
+                            }
+                        }
                     }
                     is Resource.Loading -> {
                         Toast.makeText(requireContext(),"Loading",Toast.LENGTH_LONG).show()
@@ -193,8 +260,10 @@ class EditUserScreen : Fragment(), View.OnClickListener,View.OnFocusChangeListen
 
     private fun validate() : Boolean{
         var isValid = true;
-        if(!validateEmail()) isValid = false
+        if(!validateFullname()) isValid = false
         if(!validateNumber()) isValid= false
+        if(!validateUserId()) isValid = false
+        if(!validateEmail()) isValid = false
         return isValid;
     }
 }

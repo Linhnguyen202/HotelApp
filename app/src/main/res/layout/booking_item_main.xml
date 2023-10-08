@@ -63,6 +63,7 @@
                     app:cardCornerRadius="10dp"
                     android:backgroundTint="#C8102E">
                     <TextView
+                        android:id="@+id/cardTextBtn"
                         android:paddingVertical="8dp"
                         android:paddingHorizontal="20dp"
                         android:text="Detail"

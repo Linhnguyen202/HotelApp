@@ -14,17 +14,24 @@ import retrofit2.Response
 class UserViewModel(val app: Application, val hotelRepository: HotelRepository): ViewModel() {
     val userBooking : MutableLiveData<Resource<BookingResponse>> = MutableLiveData()
     val userBookingList : MutableLiveData<Resource<UserBookingResponse>> = MutableLiveData()
+
     val cancelUserBookng : MutableLiveData<Resource<BookingResponse>> = MutableLiveData()
 
     public fun getUserBookingList(userId: String, header: String) = viewModelScope.launch {
         userBookingList.postValue(Resource.Loading())
-        val response = hotelRepository.getUserBooking(userId, header)
+        val response = hotelRepository.getUserBooking(userId,"Current", header)
         userBookingList.postValue(handleUserBooking(response))
     }
 
     public fun getUserCancelBookingList(userId: String, header: String) = viewModelScope.launch {
         userBookingList.postValue(Resource.Loading())
-        val response = hotelRepository.getUserCancelBooking(userId, header)
+        val response = hotelRepository.getUserCancelBooking(userId,"Cancel", header)
+        userBookingList.postValue(handleUserBooking(response))
+    }
+
+    public fun getUserPassBookingList(userId: String, header: String) = viewModelScope.launch {
+        userBookingList.postValue(Resource.Loading())
+        val response = hotelRepository.getUserPassBooking(userId,"Pass", header)
         userBookingList.postValue(handleUserBooking(response))
     }
 

@@ -10,7 +10,7 @@
         android:id="@+id/currentBookingRv"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:backgroundTint="@color/purple_700"
+        style="@style/SCREEN"
         app:layout_constraintTop_toTopOf="parent"
         app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
         android:orientation="vertical"/>

@@ -7,6 +7,7 @@ data class User(
     val __v: Int,
     val _id: String,
     val address: String?,
+    val identification : String?,
     val email: String?,
     val password: String?,
     val phoneNumber: String?,
@@ -19,6 +20,7 @@ data class User(
         parcel.readString(),
         parcel.readString(),
         parcel.readString(),
+        parcel.readString(),
         parcel.readString()) {
     }
 
@@ -26,6 +28,7 @@ data class User(
         parcel.writeInt(__v)
         parcel.writeString(_id)
         parcel.writeString(address)
+        parcel.writeString(identification)
         parcel.writeString(email)
         parcel.writeString(password)
         parcel.writeString(phoneNumber)

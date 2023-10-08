@@ -31,6 +31,7 @@ class ListSettingScreen : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        checkDarkMode()
         binding.toolbarSetting.titleToolbar.text = getString(R.string.Setting)
         binding.toolbarSetting.backButton.setOnClickListener {
             findNavController().popBackStack()

@@ -1,6 +1,7 @@
 package com.example.hotelapp.api
 
 import com.example.hotelapp.model.*
+import com.example.hotelapp.ui.bookingPage.FeedbackScreen
 import okhttp3.ResponseBody
 import retrofit2.Call
 import retrofit2.Response
@@ -75,17 +76,13 @@ interface HotelApi {
         @Body body: bookingBody
     ) : Response<BookingResponse>
 
-    @GET("user/{userId}/booking")
+    @GET("user/{userId}/booking/{type}")
     suspend fun getUserBooking(
         @Path("userId") userId: String,
+        @Path("type") type: String,
         @Header("Authorization") header: String,
     ) : Response<UserBookingResponse>
 
-    @GET("user/{userId}/booking/cancel")
-    suspend fun getUserCancelBooking(
-        @Path("userId") userId: String,
-        @Header("Authorization") header: String,
-    ) : Response<UserBookingResponse>
 
     @PUT("user/{userId}/booking/{bookingId}")
     suspend fun cancelBooking(
@@ -120,4 +117,31 @@ interface HotelApi {
         @Path("favorId") favorId: String,
         @Header("Authorization") header: String,
     ) : Response<StatusFavorResponse>
+
+    @POST("chats")
+    suspend fun makeChat(
+        @Header("Authorization") header: String,
+        @Body body: ChatBody
+    ) : Response<ChatResponse>
+
+    @POST("messages")
+    suspend fun sendMessage(
+        @Header("Authorization") header: String,
+        @Body body: MessageBody
+    ) : Response<MessageResponse>
+
+    @GET("messages/{chatId}")
+    suspend fun getMessage(
+        @Header("Authorization") header: String,
+        @Path("chatId") chatId: String,
+    ) : Response<ChatListResponse>
+
+
+    @POST("user/{userId}/rating/{hotelId}")
+    suspend fun addFeedback(
+        @Header("Authorization") header: String,
+        @Path("userId") userId : String,
+        @Path("hotelId") hotelId : String,
+        @Body body : FeedbackBody
+    ) : Response<FeedbackResponse>
 }

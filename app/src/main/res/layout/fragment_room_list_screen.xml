@@ -5,7 +5,7 @@
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     tools:context=".ui.roomPage.RoomListScreen"
-    android:background="#F5F5F5">
+    style="@style/SCREEN">
     <include layout="@layout/toolbar_title" android:id="@+id/toolbarTitle"/>
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/roomRv"

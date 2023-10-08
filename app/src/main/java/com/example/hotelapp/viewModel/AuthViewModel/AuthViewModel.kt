@@ -39,9 +39,7 @@ class AuthViewModel (val app: Application, val authRepository: AuthRepository): 
         }
 
     }
-    public fun resetUser(){
 
-    }
     private fun registerUSer(registerBody: registerBody) = viewModelScope.launch {
         user.postValue(Resource.Loading())
         val response = authRepository.registerUser(registerBody)

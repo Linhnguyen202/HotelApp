@@ -36,6 +36,8 @@ import okhttp3.internal.assertThreadHoldsLock
 import java.text.SimpleDateFormat
 import java.time.LocalDate
 import java.time.temporal.ChronoUnit
+import java.util.regex.Matcher
+import java.util.regex.Pattern
 
 class ConfirmPayScreen : Fragment() {
     lateinit var binding : FragmentConfirmPayScreenBinding
@@ -76,7 +78,7 @@ class ConfirmPayScreen : Fragment() {
         val userName = user.username
         val price = argRoom.price
         val totalPrice = (search.room!!.toInt() * price) + 20 + 40
-        val status = getString(R.string.current)
+        val status = "Current"
         val descripion = ""
         val numberRoom = search.room.toString().toInt()
         val guestNumber = search.adults.toString().toInt()
@@ -109,7 +111,10 @@ class ConfirmPayScreen : Fragment() {
 
     }
     private fun onSubmit(){
-        if(bookingBody!!.paymentType.isEmpty()){
+        if(checkVoucher()){
+            Toast.makeText(requireContext(),"voucher không hợp lệ",Toast.LENGTH_LONG).show()
+        }
+        else if(bookingBody!!.paymentType.isEmpty()){
             Toast.makeText(requireContext(),getString(R.string.choose_payment_title),Toast.LENGTH_LONG).show()
         }
         else{
@@ -126,15 +131,14 @@ class ConfirmPayScreen : Fragment() {
                                 "booking" to BookingResponse!!.booking
                             )
 
-                         findNavController().navigate(R.id.action_confirmPayScreen_to_successOrderScreen2,bundle)
-//                            loadingDialog.endLoading(requireContext())
+                         findNavController().navigate(R.id.action_confirmPayScreen_to_successOrderScreen,bundle)
                         }
                     }
                     is Resource.Error -> {
-
+                        Toast.makeText(requireContext(),"error",Toast.LENGTH_LONG).show()
                     }
                     is Resource.Loading -> {
-//                        loadingDialog.startLoading(requireContext())
+                        Toast.makeText(requireContext(),"Loading",Toast.LENGTH_LONG).show()
                     }
                 }
             }
@@ -154,6 +158,30 @@ class ConfirmPayScreen : Fragment() {
         binding.btnSubmitBook.setOnClickListener{
             onSubmit()
         }
+        binding.submitVoucher.setOnClickListener {
+            val price =  binding.totalTxt.text.toString()
+            if(checkVoucher()){
+                val newPrice = price.toInt() - 20/100
+                binding.totalTxt.text = newPrice.toString()
+            }
+            else{
+                binding.totalTxt.text = price
+            }
+        }
+
+    }
+    private fun checkVoucher() : Boolean{
+        val value = binding.voucher.text.toString()
+        val specialChar = Pattern.compile("[!@#$%&*()_+=|<>?{}\\[\\]~-]", Pattern.CASE_INSENSITIVE)
+        val matcherSpecial: Matcher = specialChar.matcher(value)
+        val containsNumber: Boolean = matcherSpecial.find()
+        if(containsNumber){
+            binding.errorVoucher.visibility = View.VISIBLE
+            return true
+        }
+        binding.errorVoucher.visibility = View.GONE
+        return false
+
     }
 
 }

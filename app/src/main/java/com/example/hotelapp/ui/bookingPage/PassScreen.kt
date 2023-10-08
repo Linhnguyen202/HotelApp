@@ -5,16 +5,102 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
+import androidx.core.os.bundleOf
+import androidx.lifecycle.ViewModelProvider
+import androidx.navigation.fragment.findNavController
 import com.example.hotelapp.R
+import com.example.hotelapp.adapter.UserBookingAdapter
+import com.example.hotelapp.application.HotelApplication
+import com.example.hotelapp.database.HotelDatabase
+import com.example.hotelapp.databinding.FragmentBookingScreenBinding
+import com.example.hotelapp.databinding.FragmentPassScreenBinding
+import com.example.hotelapp.model.Booking
+import com.example.hotelapp.repository.HotelRepository
+import com.example.hotelapp.share.sharePreferenceUtils
+import com.example.hotelapp.utils.Resource
+import com.example.hotelapp.viewModel.UserViewModel.UserViewModel
+import com.example.hotelapp.viewModel.UserViewModel.UserViewModelProviderFactory
 
 
 class PassScreen : Fragment() {
+    lateinit var binding : FragmentPassScreenBinding
+
+    private val repository by lazy {
+        HotelRepository(HotelDatabase(requireContext()));
+    }
+    private val viewModelProviderFactory by lazy {
+        UserViewModelProviderFactory(HotelApplication(),repository)
+    }
+
+    private val userViewModel by lazy {
+        ViewModelProvider(this,viewModelProviderFactory)[UserViewModel::class.java]
+    }
+    lateinit var adapter: UserBookingAdapter
+
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?,
     ): View? {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_pass_screen, container, false)
+        binding = FragmentPassScreenBinding.inflate(layoutInflater)
+        return binding.root
     }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        setUpItem()
+        if(sharePreferenceUtils.isSharedPreferencesExist(requireContext(),"USER","TOKEN_VALUE") && sharePreferenceUtils.isSharedPreferencesExist(requireContext(),"USER","USER_VALUE")){
+            addData()
+        }
+        else{
+
+        }
+
+    }
+
+    private fun setUpItem() {
+        adapter = UserBookingAdapter(onClickItem)
+        binding.passBookingRv.apply {
+            adapter = this@PassScreen.adapter
+        }
+    }
+
+    private fun addData() {
+        val authen = "Bearer ${sharePreferenceUtils.getToken(requireContext())}"
+        val userId = sharePreferenceUtils.getUser(requireContext())._id
+        userViewModel.getUserPassBookingList(userId,authen)
+        userViewModel.userBookingList.observe(viewLifecycleOwner){
+            when(it){
+                is Resource.Success -> {
+                    it.data?.let { UserBookingResponse ->
+                        adapter.differ.submitList(UserBookingResponse.booking.toList())
+                        if(UserBookingResponse.booking.toList().size > 0){
+                            binding.notiLayout.visibility = View.INVISIBLE
+                            binding.passBookingRv.visibility = View.VISIBLE
+                        }
+                        else{
+                            binding.notiLayout.visibility = View.VISIBLE
+                            binding.passBookingRv.visibility = View.INVISIBLE
+                        }
+                    }
+                }
+                is Resource.Error -> {
+
+                }
+                is Resource.Loading -> {
+                    Toast.makeText(requireContext(),"Loading data", Toast.LENGTH_LONG).show()
+                }
+            }
+        }
+    }
+    private val onClickItem : (Booking)->Unit = {
+        val bundle = bundleOf(
+            "booking" to it
+        )
+        findNavController().navigate(R.id.action_bookingScreen_to_feedbackScreen,bundle)
+    }
+
+
 
 }

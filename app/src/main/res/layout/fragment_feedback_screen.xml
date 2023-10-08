@@ -1,0 +1,147 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical"
+    style="@style/SCREEN">
+    <include style="@style/SCREEN" android:id="@+id/toolbar" layout="@layout/toolbar_title"/>
+    <ScrollView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content">
+
+    </ScrollView>
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_marginTop="20dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="10dp">
+        <ImageView
+            android:id="@+id/banner"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:src="@drawable/ic_launcher_background"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            android:layout_marginRight="20dp"/>
+        <TextView
+            android:id="@+id/detailHotelName"
+            android:text="Sin Suoi Ho Bungalow and Homestay"
+            android:textStyle="bold"
+            android:textSize="18sp"
+            style="@style/TEXT"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintStart_toEndOf="@+id/banner"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="10dp"/>
+        <TextView
+            android:id="@+id/rateNumCardTxt"
+            android:text="5.0"
+            android:textSize="16sp"
+            app:layout_constraintStart_toEndOf="@+id/starImgCard"
+            app:layout_constraintTop_toBottomOf="@+id/detailHotelName"
+            style="@style/TEXT"
+            android:textStyle="bold"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="10dp"/>
+        <ImageView
+            android:id="@+id/starImgCard"
+            android:src="@drawable/start_rate"
+            app:layout_constraintStart_toStartOf="@+id/detailHotelName"
+            app:layout_constraintTop_toTopOf="@+id/rateNumCardTxt"
+            app:layout_constraintBottom_toBottomOf="@+id/rateNumCardTxt"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginRight="4dp"/>
+
+        <TextView
+            android:id="@+id/detailHotelLocation"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:text="Phong Thổ District, Lai Chau, Vietnam"
+            app:layout_constraintStart_toStartOf="@+id/detailHotelName"
+            app:layout_constraintTop_toBottomOf="@+id/rateNumCardTxt"
+            android:textSize="16sp"
+            style="@style/TEXT_2"
+            />
+    </androidx.constraintlayout.widget.ConstraintLayout>
+    <LinearLayout
+        android:padding="10dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:layout_marginTop="20dp">
+
+        <EditText
+            android:id="@+id/editTextFeedback"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Enter text here"
+            android:inputType="textMultiLine"
+            android:gravity="top"
+
+            android:lines="5" />
+        <androidx.cardview.widget.CardView
+            android:id="@+id/cardViewContainer"
+            android:layout_width="100dp"
+            android:layout_height="100dp"
+            android:layout_gravity="center_horizontal"
+            android:visibility="gone">
+            <ImageView
+                android:foreground="#96222f3e"
+                android:foregroundTintMode="src_atop"
+                android:id="@+id/imageFeed"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                android:scaleType="fitXY"
+             />
+            <TextView
+                android:id="@+id/delImageBtn"
+                android:text="x"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="@color/white"
+                android:textSize="20dp"
+                android:paddingVertical="2dp"
+                android:paddingHorizontal="5dp"
+                android:layout_gravity="right"
+                android:textStyle="bold"/>
+        </androidx.cardview.widget.CardView>
+        <Button
+            android:id="@+id/sendImageSubmit"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Pick Image"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginTop="16dp" />
+        <RatingBar
+            android:id="@+id/ratingBarFeedback"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/editTextFeedback"
+            android:layout_gravity="center_horizontal"
+            android:progressTint="#FFD33C"
+            android:layout_marginTop="16dp"
+            android:rating="0.0" />
+
+        <TextView
+            android:text="Good"
+            style="@style/TEXT"
+            android:layout_gravity="center_horizontal"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"/>
+        <Button
+            android:id="@+id/buttonSubmit"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Submit Feedback"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginTop="16dp" />
+    </LinearLayout>
+
+</LinearLayout>

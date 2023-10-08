@@ -27,6 +27,9 @@
         <action
             android:id="@+id/action_bookingScreen_to_detailBookingScreen"
             app:destination="@id/detailBookingScreen" />
+        <action
+            android:id="@+id/action_bookingScreen_to_feedbackScreen"
+            app:destination="@id/feedbackScreen" />
     </fragment>
     <fragment
         android:id="@+id/savedScreen"
@@ -129,5 +132,13 @@
         <action
             android:id="@+id/action_listSettingScreen_to_languageSettingScreen"
             app:destination="@id/languageSettingScreen" />
+    </fragment>
+    <fragment
+        android:id="@+id/feedbackScreen"
+        android:name="com.example.hotelapp.ui.bookingPage.FeedbackScreen"
+        android:label="FeedbackScreen" >
+        <argument
+            android:name="booking"
+            app:argType="com.example.hotelapp.model.Booking" />
     </fragment>
 </navigation>

@@ -16,9 +16,11 @@ class HotelRepository(val db : HotelDatabase) {
 
     suspend fun userBooking(userId: String,header: String,bookingBody: bookingBody) = RetrofitInstance.api.makeBooking(userId,header,bookingBody)
 
-    suspend fun getUserBooking(userId: String,header: String) = RetrofitInstance.api.getUserBooking(userId,header)
+    suspend fun getUserBooking(userId: String,type: String,header: String) = RetrofitInstance.api.getUserBooking(userId,type,header)
 
-    suspend fun getUserCancelBooking(userId: String,header: String) = RetrofitInstance.api.getUserCancelBooking(userId,header)
+    suspend fun getUserCancelBooking(userId: String,type: String,header: String) = RetrofitInstance.api.getUserBooking(userId,type,header)
+
+    suspend fun getUserPassBooking(userId: String,type: String,header: String) = RetrofitInstance.api.getUserBooking(userId,type,header)
 
     suspend fun cancelUserBooking(userId: String, bookingId: String, header: String) = RetrofitInstance.api.cancelBooking(userId,bookingId, header)
 }

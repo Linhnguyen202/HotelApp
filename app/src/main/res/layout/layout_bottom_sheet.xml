@@ -18,6 +18,7 @@
         app:layout_constraintTop_toBottomOf="@id/searchBox">
 
         <TextView
+            android:id="@+id/timeTitle"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginLeft="15dp"
@@ -29,13 +30,16 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
-        <TextView
+
+
+        <EditText
             android:id="@+id/timePick"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginLeft="15dp"
             android:background="@null"
             android:hint="1 weeks"
+            android:focusable="false"
             android:textColorHint="@color/black"
             android:textSize="14sp"
             app:layout_constraintBottom_toBottomOf="parent"
@@ -43,6 +47,21 @@
             app:layout_constraintTop_toTopOf="parent" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 
+    <TextView
+        android:id="@+id/txtTimeError"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="15dp"
+        android:layout_marginTop="10dp"
+        android:background="@null"
+        android:hint="Time"
+        android:text="Error"
+        android:textColorHint="#c50a27"
+        android:textColor="#c50a27"
+        android:textStyle="bold"
+        android:paddingHorizontal="20dp"
+        android:textSize="14sp"
+        android:visibility="gone"/>
     <LinearLayout
         android:id="@+id/peronPicker"
         android:layout_width="match_parent"
@@ -80,12 +99,14 @@
                 app:layout_constraintEnd_toStartOf="@+id/roomNumberTxt"
                 app:layout_constraintTop_toTopOf="parent" />
 
-            <TextView
+            <EditText
                 android:id="@+id/roomNumberTxt"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginRight="10dp"
+                android:hint="0"
                 android:text="0"
+                android:focusable="false"
                 android:textColor="@color/black"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toStartOf="@id/plusRoomIcon"
@@ -132,12 +153,14 @@
                 app:layout_constraintEnd_toStartOf="@+id/adultsNumberTxt"
                 app:layout_constraintTop_toTopOf="parent" />
 
-            <TextView
+            <EditText
                 android:id="@+id/adultsNumberTxt"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginRight="10dp"
+                android:hint="0"
                 android:text="0"
+                android:focusable="false"
                 android:textColor="@color/black"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toStartOf="@id/plusAdultsIcon"
@@ -152,57 +175,38 @@
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
         </androidx.constraintlayout.widget.ConstraintLayout>
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="2dp"
-            android:layout_marginVertical="10dp"
-            android:background="#E6E8EC" />
-        <androidx.constraintlayout.widget.ConstraintLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:paddingHorizontal="14dp">
 
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Children"
-                android:textColor="@color/black"
-                android:textStyle="bold"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
-
-            <ImageView
-                android:id="@+id/minusChildrenIcon"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginRight="10dp"
-                android:src="@drawable/ic_baseline_remove_circle_outline_24"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toStartOf="@+id/childrenNumberTxt"
-                app:layout_constraintTop_toTopOf="parent" />
-
-            <TextView
-                android:id="@+id/childrenNumberTxt"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginRight="10dp"
-                android:text="0"
-                android:textColor="@color/black"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toStartOf="@id/plusChildrenIcon"
-                app:layout_constraintTop_toTopOf="parent" />
-
-            <ImageView
-                android:id="@+id/plusChildrenIcon"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:src="@drawable/ic_baseline_add_circle_outline_24"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
-        </androidx.constraintlayout.widget.ConstraintLayout>
     </LinearLayout>
+    <TextView
+        android:id="@+id/txtRoomError"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="15dp"
+        android:layout_marginTop="10dp"
+        android:background="@null"
+        android:hint="Time"
+        android:text="Error"
+        android:textColorHint="#c50a27"
+        android:textColor="#c50a27"
+        android:textStyle="bold"
+        android:paddingHorizontal="20dp"
+        android:textSize="14sp"
+        android:visibility="gone"/>
+    <TextView
+        android:id="@+id/txtGuestError"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="15dp"
+        android:layout_marginTop="10dp"
+        android:background="@null"
+        android:hint="Time"
+        android:text="Error"
+        android:textColorHint="#c50a27"
+        android:textColor="#c50a27"
+        android:textStyle="bold"
+        android:paddingHorizontal="20dp"
+        android:textSize="14sp"
+        android:visibility="gone"/>
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -224,8 +228,7 @@
         <Button
             android:id="@+id/submitButton"
             android:text="Submit"
-            android:enabled="false"
-            android:backgroundTint="#66c50a27"
+            android:backgroundTint="#c50a27"
             android:layout_width="0dp"
             android:layout_weight="1"
             android:layout_height="wrap_content"

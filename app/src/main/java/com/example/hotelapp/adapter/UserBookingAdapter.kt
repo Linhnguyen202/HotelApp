@@ -21,8 +21,22 @@ class UserBookingAdapter(var onClickItem : (Booking)->Unit) : RecyclerView.Adapt
         private val bookingTitle: TextView = view.findViewById(R.id.titleCardTxt)
         private val priceCardText: TextView = view.findViewById(R.id.priceCardText)
         private val detailButton : CardView = view.findViewById(R.id.detailBtn)
+        private val textButton : TextView = view.findViewById(R.id.cardTextBtn)
         private val thumbnailCard : ImageView = view.findViewById(R.id.thumbnailCard)
         public fun init(booking: Booking){
+            when(booking.status){
+                "Current"->{
+                    textButton.text = "Detail"
+                }
+                "Pass" -> {
+                    textButton.text = "Feedback"
+                }
+                "Pass" -> {
+                    textButton.text = "Detail"
+                }
+
+
+            }
             bookingTitle.text = booking.hotel.name.toString()
             priceCardText.text = booking.totalPrice.toString()
             Glide.with(this.itemView).load(booking.hotel.image).into(thumbnailCard)
